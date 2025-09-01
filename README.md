@@ -1,6 +1,6 @@
 # BOBCAT: Bilevel Optimization-Based Computerized Adaptive Testing
 
-This is an official repository of the paper [BOBCAT: Bilevel Optimization-Based Computerized Adaptive Testing](https://arxiv.org/pdf/2108.07386.pdf) to be presented at IJCAI 2021. 
+Forked repository of the paper [BOBCAT: Bilevel Optimization-Based Computerized Adaptive Testing](https://arxiv.org/pdf/2108.07386.pdf) to be presented at IJCAI 2021. 
 
 
 `In this paper, we propose BOBCAT, a Bilevel Optimization-Based framework for CAT to directly learn a data-driven question selection algorithm from training data. We show that BOBCAT outperforms existing CAT methods (sometimes significantly) at reducing test length.`
