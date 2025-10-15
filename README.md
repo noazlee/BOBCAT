@@ -12,6 +12,8 @@ This repository uses the following packages in Python3.
 torch==1.7.1
 ```
 
+`python train.py --neptune --dataset assist2009 --model biirt-random --n_query 10 --use_cuda`
+
 ## Training
 You can download the preprocessed datasets from [Google Drive](https://drive.google.com/file/d/1BItI5PVl4-iZAKd-39kjdsnHIPmRG3ld/view?usp=sharing) in `/data/` folder. Preprocessing scirpts can be found in `utils/` folder.
 

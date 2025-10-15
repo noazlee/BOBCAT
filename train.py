@@ -9,6 +9,9 @@ from copy import deepcopy
 from utils.configuration import create_parser, initialize_seeds
 import time
 import os
+from dotenv import load_dotenv
+load_dotenv()
+
 DEBUG = False if torch.cuda.is_available() else True
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 best_val_score, best_test_score = 0, 0
@@ -217,13 +220,13 @@ def train_model():
     print('Test_Epoch: {}; val_scores: {}; val_aucs: {}; test_scores: {}; test_aucs: {}'.format(
         epoch, val_scores, val_aucs, test_scores, test_aucs))
     if params.neptune:
-        neptune.log_metric('Valid Accuracy', val_score)
-        neptune.log_metric('Best Test Accuracy', best_test_score)
-        neptune.log_metric('Best Test Auc', best_test_auc)
-        neptune.log_metric('Best Valid Accuracy', best_val_score)
-        neptune.log_metric('Best Valid Auc', best_val_auc)
-        neptune.log_metric('Best Epoch', best_epoch)
-        neptune.log_metric('Epoch', epoch)
+        run["metrics/valid_accuracy"].append(val_score)
+        run["metrics/best_test_accuracy"] = best_test_score
+        run["metrics/best_test_auc"] = best_test_auc
+        run["metrics/best_valid_accuracy"] = best_val_score
+        run["metrics/best_valid_auc"] = best_val_auc
+        run["metrics/best_epoch"] = best_epoch
+        run["metrics/epoch"] = epoch
 
 
 def test_model(id_, split='val'):
@@ -266,11 +269,13 @@ if __name__ == "__main__":
 
     if params.neptune:
         import neptune
-        project = "arighosh/bobcat"
-        neptune.init(project_qualified_name=project,
-                     api_token=os.environ["NEPTUNE_API_TOKEN"])
-        neptune_exp = neptune.create_experiment(
-            name=params.file_name, send_hardware_metrics=False, params=vars(params))
+        project = "noazlee-workspace/BOBCAT"
+        run = neptune.init_run(
+            project=project,
+            api_token=os.environ["NEPTUNE_API_TOKEN"],
+            name=params.file_name,
+        )
+        run["parameters"] = vars(params)
 
     config = {}
     initialize_seeds(params.seed)
@@ -293,8 +298,7 @@ if __name__ == "__main__":
     meta_params_optimizer = torch.optim.SGD(
         meta_params, lr=params.meta_lr, weight_decay=2e-6, momentum=0.9)
     if params.neptune:
-        neptune_exp.log_text(
-            'model_summary', repr(model))
+        run["model/summary"] = repr(model)
     print(model)
 
     #
@@ -306,15 +310,13 @@ if __name__ == "__main__":
         ppo_policy = PPO(params.n_question, params.n_question,
                          params.policy_lr, betas, K_epochs, eps_clip)
         if params.neptune:
-            neptune_exp.log_text(
-                'ppo_model_summary', repr(ppo_policy.policy))
+            run["model/ppo_summary"] = repr(ppo_policy.policy)
     if sampling == 'biased':
         betas = (0.9, 0.999)
         st_policy = StraightThrough(params.n_question, params.n_question,
                                     params.policy_lr, betas)
         if params.neptune:
-            neptune_exp.log_text(
-                'biased_model_summary', repr(st_policy.policy))
+            run["model/biased_summary"] = repr(st_policy.policy)
 
     #
     data_path = os.path.normpath('data/train_task_'+params.dataset+'.json')

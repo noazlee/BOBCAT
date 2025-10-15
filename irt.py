@@ -18,6 +18,9 @@ import time
 #import wandb
 import neptune
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 #running in cluster
 DEBUG = False  # if torch.cuda.is_available() else True
 # if DEBUG:
@@ -144,7 +147,7 @@ class Model:
 if __name__ == "__main__":
     params = create_parser()
     print(params)
-    project = "arighosh/bobcat"
+    project = "noazlee-workspace/BOBCAT"
     initialize_seeds(params.seed)
     #
     data_path = os.path.normpath('data/train_task_'+params.dataset+'.json')
@@ -215,12 +218,14 @@ if __name__ == "__main__":
         best_test_score, best_val_score, best_policy_lr))
     if not DEBUG:
         params.policy_lr = best_policy_lr
-        neptune.init(project_qualified_name=project,
-                     api_token=os.environ["NEPTUNE_API_TOKEN"])
-        neptune_exp = neptune.create_experiment(
-            name=params.file_name, params=vars(params), send_hardware_metrics=False)
+        run = neptune.init_run(
+            project=project,
+            api_token=os.environ["NEPTUNE_API_TOKEN"],
+            name=params.file_name,
+        )
+        run["parameters"] = vars(params)
 
-        neptune.log_metric('Best Test Accuracy', best_test_score)
-        neptune.log_metric('Best Test Auc', best_test_auc)
-        neptune.log_metric('Best Valid Accuracy', best_val_score)
-        neptune.log_metric('Best Valid Auc', best_val_auc)
+        run["metrics/best_test_accuracy"] = best_test_score
+        run["metrics/best_test_auc"] = best_test_auc
+        run["metrics/best_valid_accuracy"] = best_val_score
+        run["metrics/best_valid_auc"] = best_val_auc
