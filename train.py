@@ -12,6 +12,24 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
+# keeping track of questions sampled
+import csv
+from pathlib import Path
+
+Path("results").mkdir(exist_ok=True)
+selection_log_file = "results/question_selection_log.csv"
+selection_log = None
+
+def init_selection_log(): # make a directory with a timestamp (wont overwrite), in directory with text file with command this was typed with
+    global selection_log
+    selection_log = open(selection_log_file, "w", newline="")
+    writer = csv.writer(selection_log)
+    writer.writerow(["epoch", "batch_idx", "user_id", "q_ids", "subject_ids", "labels"])
+
+    return writer
+
+selection_writer = None
+
 DEBUG = False if torch.cuda.is_available() else True
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 best_val_score, best_test_score = 0, 0
@@ -147,7 +165,9 @@ def run_biased(batch, config):
     return res['output']
 
 
-def run_random(batch, config):
+def run_random(batch, config, batch_idx=None):
+    global selection_writer
+
     new_params = clone_meta_params(batch)
     meta_params_optimizer.zero_grad()
     if config['mode'] == 'train':
@@ -166,6 +186,20 @@ def run_random(batch, config):
         for _ in range(params.n_query):
             model.pick_sample('active', config)
             inner_algo(batch, config, new_params)
+
+
+    # Track the selected training questions AFTER selection
+    if config['mode'] == 'train' and selection_writer is not None:
+        train_mask = config['train_mask'].cpu().numpy()     # This contains the selected questions
+        input_labels = batch['input_labels'].cpu().numpy()  # Labels for all questions
+    
+        # For each user in the batch
+        for b_idx in range(len(train_mask)):
+            # Find which questions were selected for training
+            selected_indices = np.where(train_mask[b_idx] == 1)[0]
+
+            ## DO LATER
+
 
     if config['mode'] == 'train':
         res = model(batch, config)
@@ -195,6 +229,10 @@ def train_model():
             run_biased(batch, config)
         else:
             run_random(batch, config)
+
+    if selection_log is not None:
+        selection_log.flush()
+
     # Validation
     val_scores, val_aucs = [], []
     test_scores, test_aucs = [], []
@@ -211,7 +249,7 @@ def train_model():
         best_val_auc = val_auc
         # Run on test set
         for idx in N:
-            _, auc, acc = test_model(id_=idx, split='test')
+            _, auc, acc = test_model(id_=idx, split='test') # add function here - cli param: load existing model - test or test.py that loads existing model - save/load pickle
             test_scores.append(acc)
             test_aucs.append(auc)
         best_test_score = sum(test_scores)/(len(N)+1e-20)
@@ -267,13 +305,15 @@ if __name__ == "__main__":
     if params.use_cuda:
         assert device.type == 'cuda', 'no gpu found!'
 
+    selection_writer = init_selection_log()
+
     if params.neptune:
         import neptune
         project = "noazlee-workspace/BOBCAT"
         run = neptune.init_run(
             project=project,
             api_token=os.environ["NEPTUNE_API_TOKEN"],
-            name=params.file_name,
+            name=f"{params.model},{params.n_query},{params.dataset}",
         )
         run["parameters"] = vars(params)
 
@@ -334,3 +374,6 @@ if __name__ == "__main__":
         train_model()
         if epoch >= (best_epoch+params.wait):
             break
+
+    if selection_log is not None:
+        selection_log.close()

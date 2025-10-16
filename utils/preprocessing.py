@@ -63,14 +63,15 @@ def child_map(question_data):
 
 
 def convert_questions():
-    global question_meta_1, question_meta_3
-    input_data = 'data/question_metadata_task_1_2.csv'
-    output_data = 'data/question_metadata_task_1_2.json'
-    if os.path.isfile(output_data):
-        question_meta_1 = open_json(output_data)
-    else:
-        question_meta_1 = child_map(process_question(input_data, output_data))
-        dump_json(output_data, question_meta_1)
+    # global question_meta_1
+    global question_meta_3
+    # input_data = 'data/question_metadata_task_1_2.csv'
+    # output_data = 'data/question_metadata_task_1_2.json'
+    # if os.path.isfile(output_data):
+    #     question_meta_1 = open_json(output_data)
+    # else:
+    #     question_meta_1 = child_map(process_question(input_data, output_data))
+    #     dump_json(output_data, question_meta_1)
 
     input_data = 'data/question_metadata_task_3_4.csv'
     output_data = 'data/question_metadata_task_3_4.json'
@@ -79,7 +80,7 @@ def convert_questions():
     else:
         question_meta_3 = child_map(process_question(input_data, output_data))
         dump_json(output_data, question_meta_3)
-    return question_meta_1, question_meta_3
+    return question_meta_3
 
 
 def convert_subjects():
@@ -289,7 +290,6 @@ if __name__ == "__main__":
         subject_metadata = convert_subjects()
         convert_questions()
         featurize(dataset='3_4')
-        featurize(dataset='1_2')
     if params.dataset == 'junyi':
         featurize_junyi()
     if params.dataset == 'ednet':

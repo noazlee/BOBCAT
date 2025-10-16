@@ -34,18 +34,19 @@ def list_to_string(socres):
     str_scores = [str(s) for s in socres]
     return ','.join(str_scores)
 
-
+# CHANGED so i can add subject info
 def data_split(datapath, fold, seed):
     data = open_json(datapath)
     random.Random(seed).shuffle(data)
-    fields = ['q_ids',  'labels']  # 'ans', 'correct_ans',
+    # fields = ['q_ids',  'labels']  # 'ans', 'correct_ans',
+    fields = ['q_ids', 'labels', 'user_id', 'subject_ids']
     del_fields = []
     for f in data[0]:
         if f not in fields:
             del_fields.append(f)
     for d in data:
-        for f in fields:
-            d[f] = np.array(d[f])
+        d['q_ids'] = np.array(d['q_ids'])
+        d['labels'] = np.array(d['labels'])
         for f in del_fields:
             if f not in fields:
                 del d[f]
