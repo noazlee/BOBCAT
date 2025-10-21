@@ -410,5 +410,22 @@ if __name__ == "__main__":
         if epoch >= (best_epoch+params.wait):
             break
 
-    if selection_log is not None:
-        selection_log.close()
+    
+    # Save final model
+    if not os.path.exists('saved_models'): 
+        os.makedirs('saved_models') 
+        
+    model_save_path = f"saved_models/bobcat_final_{params.dataset}_{params.model}_{params.n_query}.pt" 
+    torch.save({ 'epoch': epoch, 
+        'model_state_dict': model.state_dict(), 
+        'meta_params': meta_params, 
+        'optimizer_state_dict': optimizer.state_dict(), 
+        'meta_optimizer_state_dict': meta_params_optimizer.state_dict(), 
+        'val_score': best_val_score, 
+        'val_auc': best_val_auc, 
+        'test_score': best_test_score, 
+        'test_auc': best_test_auc, 
+        'params': vars(params) 
+    }, model_save_path) 
+    
+    print(f"Final model saved to {model_save_path}")
