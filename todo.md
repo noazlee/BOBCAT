@@ -8,3 +8,9 @@
 * testing existing model in bobcat
 * train model once - then in test - see what questions/subjects are being sampled
 * be able to actually use model - interactive - how to use model once we have 
+
+
+## 3 tasks
+* keep track of test qids in train and load the model (main function in test) - Leo 
+* implement run_random_test() - keeping track of the q ids 					  - Noah
+* implement test_model()													  - Chloe

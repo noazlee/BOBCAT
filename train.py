@@ -200,8 +200,8 @@ def train_model():
     N = [idx for idx in range(100, 100+params.repeat)]
     # print("N", N)
     for batch_id, batch in enumerate(train_loader): 
-        # batch = { input_labels: , input_mask: , output_labels: , output_mask: , user_ids, all_q_ids, all_subject_ids }
-        #            [512 x 948]    [512, 948]      [512, 948]      [512, 948]     [512]    [512x[_]]     [512x[ [_] ]]
+        # batch = { input_labels: , input_mask: , output_labels: , output_mask: , output_labels: , user_ids, all_q_ids, all_subject_ids }
+        #            [512 x 948]    [512, 948]      [512, 948]      [512, 948]                       [512]   [512x[_]]     [512x[ [_] ]]
 
         # ------- DEBUGGING START HERE --------------------------
 
@@ -395,7 +395,7 @@ if __name__ == "__main__":
         data_path, params.fold,  params.seed)
     print("train data:",train_data[0], len(train_data)) # 2952 - user_id, subject_ids: [[], []], q_ids: nparray, labels: nparray
     print("valid data:",valid_data[0], len(valid_data)) # 983
-    print("test data:",test_data[0], len(test_data))    # 983
+    print("test data:",test_data[0], len(test_data))    # 983 - Save students here!
     train_dataset, valid_dataset, test_dataset = Dataset(
         train_data), Dataset(valid_data), Dataset(test_data)
     #
@@ -426,6 +426,7 @@ if __name__ == "__main__":
         'test_score': best_test_score, 
         'test_auc': best_test_auc, 
         'params': vars(params) 
+        # 'test_qids: [] list of students we will test on
     }, model_save_path) 
     
     print(f"Final model saved to {model_save_path}")

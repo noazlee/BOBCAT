@@ -41,7 +41,7 @@ def create_parser():
         params.train_batch_size = 512
         params.test_batch_size = 1000
         params.n_epoch = 10000
-        params.wait = 1000
+        params.wait = 10 # 1000 - TEMPORARY
         params.repeat = 5
     if params.dataset == 'eedi-1':
         params.n_question = 27613
