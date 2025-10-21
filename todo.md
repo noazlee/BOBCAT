@@ -1,5 +1,7 @@
 # todo
-* fix neptune to add test acc, other metrics
+* printing stuff - config, masks,
+* logging -> 
+* filtering (next week? later)
 * new dataset class to filter for subject_id (have to have subject id questions in the meta set)
 * making bobcat sample q_id instead of index of batch - do in test, not train
 * save/load bobcat

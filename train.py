@@ -16,20 +16,6 @@ load_dotenv()
 import csv
 from pathlib import Path
 
-Path("results").mkdir(exist_ok=True)
-selection_log_file = "results/question_selection_log.csv"
-selection_log = None
-
-def init_selection_log(): # make a directory with a timestamp (wont overwrite), in directory with text file with command this was typed with
-    global selection_log
-    selection_log = open(selection_log_file, "w", newline="")
-    writer = csv.writer(selection_log)
-    writer.writerow(["epoch", "batch_idx", "user_id", "q_ids", "subject_ids", "labels"])
-
-    return writer
-
-selection_writer = None
-
 DEBUG = False if torch.cuda.is_available() else True
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 best_val_score, best_test_score = 0, 0
@@ -166,7 +152,6 @@ def run_biased(batch, config):
 
 
 def run_random(batch, config, batch_idx=None):
-    global selection_writer
 
     new_params = clone_meta_params(batch)
     meta_params_optimizer.zero_grad()
@@ -188,19 +173,6 @@ def run_random(batch, config, batch_idx=None):
             inner_algo(batch, config, new_params)
 
 
-    # Track the selected training questions AFTER selection
-    if config['mode'] == 'train' and selection_writer is not None:
-        train_mask = config['train_mask'].cpu().numpy()     # This contains the selected questions
-        input_labels = batch['input_labels'].cpu().numpy()  # Labels for all questions
-    
-        # For each user in the batch
-        for b_idx in range(len(train_mask)):
-            # Find which questions were selected for training
-            selected_indices = np.where(train_mask[b_idx] == 1)[0]
-
-            ## DO LATER
-
-
     if config['mode'] == 'train':
         res = model(batch, config)
         loss = res['loss']
@@ -219,9 +191,73 @@ def train_model():
     global best_val_auc, best_test_auc, best_val_score, best_test_score, best_epoch
     config['mode'] = 'train'
     config['epoch'] = epoch
+    # print("CONFIG:", config.keys()) # mode, epoch, available_mask, train_mask, meta_param
+    # The model uses config to know:
+    # - Whether to compute training loss or just predictions
+    # - Which questions to use (via train_mask)
+    # - Current meta-parameters
     model.train()
     N = [idx for idx in range(100, 100+params.repeat)]
-    for batch in train_loader:
+    # print("N", N)
+    for batch_id, batch in enumerate(train_loader): 
+        # batch = { input_labels: , input_mask: , output_labels: , output_mask: , user_ids, all_q_ids, all_subject_ids }
+        #            [512 x 948]    [512, 948]      [512, 948]      [512, 948]     [512]    [512x[_]]     [512x[ [_] ]]
+
+        # ------- DEBUGGING START HERE --------------------------
+
+        # print("=" * 60)
+        # print(f"Batch {batch_id}")
+
+        # # Basic batch info
+        # print(f"Batch keys: {batch.keys()}")
+        # print(f"Batch size (num students): {len(batch['user_ids'])}")
+        # print(f"Number of questions: {batch['input_labels'].shape[1]}")
+        
+        # # Shape information
+        # print(f"\nTensor shapes:")
+        # print(f"  input_labels shape: {batch['input_labels'].shape}")
+        # print(f"  input_mask shape: {batch['input_mask'].shape}")
+        # print(f"  output_labels shape: {batch['output_labels'].shape}")
+        # print(f"  output_mask shape: {batch['output_mask'].shape}")
+        
+        # # User IDs
+        # print(f"\nUser IDs in batch: {batch['user_ids'][:5]}...")  # First 5
+        
+        # # Look at first student's data
+        # print(f"\n--- First Student (index 0) ---")
+        # student_idx = 0
+        
+        # # Count questions for first student
+        # input_questions_count = batch['input_mask'][student_idx].sum().item()
+        # output_questions_count = batch['output_mask'][student_idx].sum().item()
+        # print(f"Training questions: {input_questions_count}")
+        # print(f"Test questions: {output_questions_count}")
+        # print(f"Total questions answered: {input_questions_count + output_questions_count}")
+        
+        # # Which questions did they answer?
+        # input_question_indices = torch.where(batch['input_mask'][student_idx] == 1)[0]
+        # output_question_indices = torch.where(batch['output_mask'][student_idx] == 1)[0]
+        # print(f"\nTraining question indices: {input_question_indices[:10].tolist()}...")  # First 10 - this matches!
+        # print(f"Test question indices: {output_question_indices[:10].tolist()}...")
+        
+        # # What were their answers?
+        # student_input_answers = batch['input_labels'][student_idx][input_question_indices[:10]]
+        # print(f"\nFirst 10 training answers (0=wrong, 1=correct): {student_input_answers.tolist()}")
+        
+        # # Original question IDs for this student
+        # print(f"\nOriginal question IDs for student {student_idx}:")
+        # print(f"  Total questions in all_q_ids: {len(batch['all_q_ids'][student_idx])}")
+        # print(f"  First 10 q_ids: {batch['all_q_ids'][student_idx][:10]}")
+        
+        # # Subject IDs
+        # print(f"\nSubject IDs structure for student {student_idx}:")
+        # print(f"  Type: {type(batch['all_subject_ids'][student_idx])}")
+        # if len(batch['all_subject_ids'][student_idx]) > 0:
+        #     print(f"  First few subjects: {batch['all_subject_ids'][student_idx][:5]}")
+
+
+        # ------------- DEBUGGING END HERE --------------------------
+
         # Select RL Actions, save in config
         if sampling == 'unbiased':
             run_unbiased(batch, config)
@@ -229,9 +265,6 @@ def train_model():
             run_biased(batch, config)
         else:
             run_random(batch, config)
-
-    if selection_log is not None:
-        selection_log.flush()
 
     # Validation
     val_scores, val_aucs = [], []
@@ -259,12 +292,12 @@ def train_model():
         epoch, val_scores, val_aucs, test_scores, test_aucs))
     if params.neptune:
         run["metrics/valid_accuracy"].append(val_score)
-        run["metrics/best_test_accuracy"] = best_test_score
-        run["metrics/best_test_auc"] = best_test_auc
-        run["metrics/best_valid_accuracy"] = best_val_score
-        run["metrics/best_valid_auc"] = best_val_auc
-        run["metrics/best_epoch"] = best_epoch
-        run["metrics/epoch"] = epoch
+        run["metrics/best_test_accuracy"].append(best_test_score)
+        run["metrics/best_test_auc"].append(best_test_auc)
+        run["metrics/best_valid_accuracy"].append(best_val_score)
+        run["metrics/best_valid_auc"].append(best_val_auc)
+        run["metrics/best_epoch"].append(best_epoch)
+        run["metrics/epoch"].append(epoch)
 
 
 def test_model(id_, split='val'):
@@ -304,8 +337,6 @@ if __name__ == "__main__":
     print(params)
     if params.use_cuda:
         assert device.type == 'cuda', 'no gpu found!'
-
-    selection_writer = init_selection_log()
 
     if params.neptune:
         import neptune
@@ -362,14 +393,18 @@ if __name__ == "__main__":
     data_path = os.path.normpath('data/train_task_'+params.dataset+'.json')
     train_data, valid_data, test_data = data_split(
         data_path, params.fold,  params.seed)
+    print("train data:",train_data[0], len(train_data)) # 2952 - user_id, subject_ids: [[], []], q_ids: nparray, labels: nparray
+    print("valid data:",valid_data[0], len(valid_data)) # 983
+    print("test data:",test_data[0], len(test_data))    # 983
     train_dataset, valid_dataset, test_dataset = Dataset(
         train_data), Dataset(valid_data), Dataset(test_data)
     #
     num_workers = 3
     collate_fn = collate_fn(params.n_question)
-    train_loader = torch.utils.data.DataLoader(
+    train_loader = torch.utils.data.DataLoader( # batching users - efficiency, gradient stability, regulatization effect
         train_dataset, collate_fn=collate_fn, batch_size=params.train_batch_size, num_workers=num_workers, shuffle=True, drop_last=True)
     start_time = time.time()
+
     for epoch in range(params.n_epoch):
         train_model()
         if epoch >= (best_epoch+params.wait):

@@ -225,7 +225,7 @@ if __name__ == "__main__":
         )
         run["parameters"] = vars(params)
 
-        run["metrics/best_test_accuracy"] = best_test_score
-        run["metrics/best_test_auc"] = best_test_auc
-        run["metrics/best_valid_accuracy"] = best_val_score
-        run["metrics/best_valid_auc"] = best_val_auc
+        run["metrics/best_test_accuracy"].append(best_test_score)
+        run["metrics/best_test_auc"].append(best_test_auc)
+        run["metrics/best_valid_accuracy"].append(best_val_score)
+        run["metrics/best_valid_auc"].append(best_val_auc)
