@@ -9,9 +9,9 @@
 
 
 ## Tasks
-* Analyse CSVs - outputs/ - how many subjects sampled - CSV: outputs/sampled_questions_eedi3.csv
-* Working on biased sampling 
-* Fixing test.py to save subject ids by question - not set (allow duplicates)
-* Filtering meta set sampling to a certain subject id
-* validating test dataset (data_split in test.py)
+* Analyse CSVs - outputs/ - how many subjects sampled - CSV: outputs/sampled_questions_eedi3.csv - Leo
+* Working on biased sampling - Noah, Leo, Chloe
+* Fixing test.py to save subject ids by question - not set (allow duplicates) - Noah
+* Filtering meta set sampling to a certain subject id - Chloe
+* validating test dataset (data_split in test.py) - Chloe
  
