@@ -1,6 +1,4 @@
 # todo
-* printing stuff - config, masks,
-* logging -> 
 * filtering (next week? later)
 * new dataset class to filter for subject_id (have to have subject id questions in the meta set)
 * making bobcat sample q_id instead of index of batch - do in test, not train
@@ -10,7 +8,10 @@
 * be able to actually use model - interactive - how to use model once we have 
 
 
-## 3 tasks
-* keep track of test qids in train and load the model (main function in test) - Leo 
-* implement run_random_test() - keeping track of the q ids 					  - Noah
-* implement test_model()													  - Chloe
+## Tasks
+* Analyse CSVs - outputs/ - how many subjects sampled - CSV: outputs/sampled_questions_eedi3.csv
+* Working on biased sampling 
+* Fixing test.py to save subject ids by question - not set (allow duplicates)
+* Filtering meta set sampling to a certain subject id
+* validating test dataset (data_split in test.py)
+ 

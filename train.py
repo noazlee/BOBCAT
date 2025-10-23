@@ -10,6 +10,7 @@ from utils.configuration import create_parser, initialize_seeds
 import time
 import os
 from dotenv import load_dotenv
+from datetime import datetime
 load_dotenv()
 
 # keeping track of questions sampled
@@ -98,7 +99,7 @@ def run_unbiased(batch, config):
     memory.clear_memory()
     return res['output']
 
-
+# LOOK INTO THIS FOR  LOGGING BIASED
 def pick_biased_samples(batch, config):
     new_params = clone_meta_params(batch)
     env_states = model.reset(batch)
@@ -117,6 +118,7 @@ def pick_biased_samples(batch, config):
         # env state train mask should be detached
         env_states['train_mask'], env_states['action_mask'] = train_mask + \
             train_mask_sample.data, action_mask
+        # train_mask_sample.data = question we are asking?
         if config['mode'] == 'train':
             # loss computation train mask should flow gradient
             config['train_mask'] = train_mask_sample+train_mask
@@ -124,7 +126,14 @@ def pick_biased_samples(batch, config):
             res = model(batch, config)
             loss = res['loss']
             st_policy.update(loss)
+        
+        # if test:
+            # config['user_to_questions'] = []
+            # .append(train_mask_sample.data)
+            # also get the subject data from the q - make a map of q: set(subject_ids)
+        
     config['train_mask'] = env_states['train_mask']
+    
     return
 
 
@@ -414,8 +423,10 @@ if __name__ == "__main__":
     # Save final model
     if not os.path.exists('saved_models'): 
         os.makedirs('saved_models') 
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         
-    model_save_path = f"saved_models/bobcat_final_{params.dataset}_{params.model}_{params.n_query}.pt" 
+    model_save_path = f"saved_models/bobcat_final_{params.dataset}_{params.model}_{params.n_query}_{timestamp}.pt" 
     torch.save({ 'epoch': epoch, 
         'model_state_dict': model.state_dict(), 
         'meta_params': meta_params, 
