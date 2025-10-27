@@ -10,18 +10,21 @@ from utils.utils import open_json, dump_json, compute_auc, compute_accuracy, dat
 
 def load_model():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    checkpoint = torch.load("saved_models/bobcat_final_eedi-3_biirt-active_10.pt", map_location=device)
+    checkpoint = torch.load("saved_models/bobcat_final_eedi-3_biirt-active_10_20251022_220751.pt", map_location=device)
+    print(checkpoint.keys())
+    print(checkpoint["model_state_dict"].keys())
+    print(checkpoint["params"].keys())
+    print(checkpoint["params"]["model"])
     
     # First, check the state dict to determine question_dim
     state_dict = checkpoint['model_state_dict']
-
     # Get model parameters
     model_params = checkpoint.get('params', {})
     
     # Create model with correct architecture
     model = MAMLModel(
         n_question=model_params.get('n_question'),        
-        question_dim=model_params.get('question_dim', 1),
+        question_dim=1, # biirt
         dropout=model_params.get('dropout', 0.2),
         sampling=model_params.get('sampling', 'active'),
         n_query=model_params.get('n_query', 10),
@@ -118,7 +121,8 @@ def test_model(model, test_data, n_query=10, question_dim=1):
         # batch: user_ids, input_labels, input_mask, output_labels, output_mask, all_q_ids, all_subject_ids
         # Run test with sampling
         predictions, sampled_q_indices = run_random_test(batch, model, n_query, question_dim)
-        
+        # 32x948,       32x10
+
         # Get targets and masks
         targets = batch['output_labels'].float().numpy()
         masks = batch['output_mask'].numpy() == 1
@@ -153,7 +157,7 @@ def test_model(model, test_data, n_query=10, question_dim=1):
             sampled_data.append({
                 'user_id': user_id,
                 'sampled_q_ids': sampled_q_ids,  # These ARE the actual question IDs (0-947)
-                'sampled_subject_ids': list(set(sampled_subjects)),  # Unique subjects
+                'sampled_subject_ids': list(sampled_subjects),
                 'student_total_questions': len(all_q_ids)
             })
         
@@ -202,7 +206,7 @@ if __name__ == "__main__":
         model, 
         test_data, 
         n_query=model_params.get('n_query', 10),
-        question_dim=model_params.get('question_dim', 4)
+        question_dim=1
     )
     
     # Print results
@@ -211,9 +215,9 @@ if __name__ == "__main__":
     print(f"Accuracy: {accuracy:.4f}")
     
     # Save sampled questions to CSV
-    csv_filename = 'outputs/sampled_questions_eedi3.csv'
-    save_questions_to_csv(sampled_data, csv_filename)
-    print(f"Sampled questions saved to {csv_filename}")
+    # csv_filename = 'outputs/sampled_questions_eedi3.csv'
+    # save_questions_to_csv(sampled_data, csv_filename)
+    # print(f"Sampled questions saved to {csv_filename}")
     
     print("Sample of sampled questions (first 3 students):")
     for i, data in enumerate(sampled_data[:3]):
