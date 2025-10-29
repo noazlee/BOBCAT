@@ -41,7 +41,7 @@ def load_model():
     
     return model, meta_params, model_params
 
-def run_random_test(batch, model, n_query=10, question_dim=1):
+def run_random_test(batch, model, n_query=10, question_dim=1, meta_subject_id=None):
     
     # Initialize student parameters
     batch_size = len(batch['input_labels'])
@@ -55,6 +55,41 @@ def run_random_test(batch, model, n_query=10, question_dim=1):
         'meta_param': student_params
     }
     
+    if meta_subject_id is not None:
+        printed = 0
+        for i in range(batch_size):
+            mask = config['available_mask'][i].clone()
+            subject_ids = batch['all_subject_ids'][i]  # List of lists
+            
+            # Take ids out of list [[]] -> []
+            subject_ids_list = []
+            for id in subject_ids:
+                if isinstance(id, list):
+                    subject_ids_list.append(id[0])
+                else:
+                    subject_ids_list.append(id)
+
+            # List of questions that are the subject id 
+            available_questions = []
+            for j, id in enumerate(subject_ids_list):
+                if id == meta_subject_id:
+                    available_questions.append(j)
+
+            # Suject ids to print 
+            subject_ids = []
+            for j in available_questions:
+                subject_ids.append(subject_ids_list[j])
+            
+            if printed < 1:
+                print(f"Student {batch['user_ids'][i]} meta set questions: {available_questions} ids: {subject_ids}")
+                printed += 1
+            
+            # Mask out questions not in meta_subject_id
+            for j, id in enumerate(subject_ids_list):
+                if id != meta_subject_id:
+                    mask[j] = 0
+            config['available_mask'][i] = mask
+
     # Track sampled questions for each student
     sampled_questions = []
     
@@ -120,7 +155,8 @@ def test_model(model, test_data, n_query=10, question_dim=1):
     for batch_idx, batch in enumerate(test_loader):
         # batch: user_ids, input_labels, input_mask, output_labels, output_mask, all_q_ids, all_subject_ids
         # Run test with sampling
-        predictions, sampled_q_indices = run_random_test(batch, model, n_query, question_dim)
+        meta_subject_id = 3
+        predictions, sampled_q_indices = run_random_test(batch, model, n_query, question_dim, meta_subject_id=meta_subject_id)
         # 32x948,       32x10
 
         # Get targets and masks
