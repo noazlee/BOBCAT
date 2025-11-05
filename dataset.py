@@ -47,7 +47,18 @@ class Dataset(data.Dataset):
         target_index = observed_index[-N//5:]
         trainable_index = observed_index[:-N//5]
 
+        # print("observed_index", observed_index, len(observed_index))
+
+        # print("target_index", type(target_index), target_index, target_index[0])
+
+        # print("trainable_index", trainable_index, len(trainable_index))
+
         # input_ans = data['ans'][trainable_index]
+        # print(data['labels'], len(data['labels']))
+        # print("======")
+        # print(data['labels'][trainable_index], len(data['labels'][trainable_index]))
+        # print("========")
+        # print(data['labels'][target_index], len(data['labels'][target_index]))
         input_label = data['labels'][trainable_index]
         input_question = data['q_ids'][trainable_index]
         output_label = data['labels'][target_index]

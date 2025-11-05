@@ -5,7 +5,7 @@ from torch.utils.data import DataLoader
 import csv
 
 from model import MAMLModel, device
-from dataset import Dataset, collate_fn
+from dataset2 import Dataset, collate_fn
 from utils.utils import open_json, dump_json, compute_auc, compute_accuracy, data_split, try_makedirs
 
 def load_model():
@@ -188,41 +188,30 @@ def save_questions_to_csv(sampled_data, filename='sampled_questions.csv'):
                 'student_total_questions': data['student_total_questions']
             })
 
-if __name__ == "__main__":
-    
-    # Load model
-    print("Loading model...")
-    model, meta_params, model_params = load_model()
-    print(f"Model loaded with {model_params.get('n_question', 948)} questions")
-    
-    # Load test data
-    print("Loading test data...")
-    train_data, valid_data, test_data = data_split('data/train_task_eedi-3.json', fold=1, seed=221)
-    print(f"Test set size: {len(test_data)} students")
-    
-    # Run testing
-    print("Running test...")
-    auc, accuracy, sampled_data = test_model(
-        model, 
-        test_data, 
-        n_query=model_params.get('n_query', 10),
-        question_dim=1
-    )
-    
-    # Print results
-    print(f"=== Test Results ===")
-    print(f"AUC: {auc:.4f}")
-    print(f"Accuracy: {accuracy:.4f}")
-    
-    # Save sampled questions to CSV
+# Load model
+print("Loading model...")
+model, meta_params, model_params = load_model()
+print(f"Model loaded with {model_params.get('n_question', 948)} questions")
 
-    # timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    # csv_filename = f'outputs/sampled_questions_eedi3_active_{timestamp}.csv'
-    # save_questions_to_csv(sampled_data, csv_filename)
-    # print(f"Sampled questions saved to {csv_filename}")
+# Load test data
+print("Loading test data...")
+train_data, valid_data, test_data = data_split('data/train_task_eedi-3.json', fold=1, seed=221)
+print(f"Test set size: {len(test_data)} students")
+
+# Run testing
+print("Running test...")
+
+test_dataset_no_filter = Dataset(test_data, 155) # split into input/output
+test_dataset_filter = Dataset(test_data, 155, True)
+
+test_dataset_no_filter[0]
+test_dataset_filter[0]
+
+
+
+# go through the students
+# __getitem__ each student
+	# go through the questions, subject ids [], if subject ids contains 155, then we have a counter incrtement
+	# print count of subject id per student
+
     
-    print("Sample of sampled questions (first 3 students):")
-    for i, data in enumerate(sampled_data[:3]):
-        print(f"\nStudent {data['user_id']}:")
-        print(f"  Sampled Q IDs: {data['sampled_q_ids'][:5]}... (showing first 5)")
-        print(f"  Sampled Subjects: {data['sampled_subject_ids']}")
