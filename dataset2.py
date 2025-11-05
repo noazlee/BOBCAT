@@ -123,12 +123,12 @@ class Dataset(data.Dataset):
 			question, subject_ids = data["q_ids"][i], data["subject_ids"][i]
 			if self.filter_id in subject_ids and not reached_threshold:
 				output_label.append(data["labels"][i])
-				output_question.append(data["labels"][i])
+				output_question.append(data["q_ids"][i])
 				if len(output_label) == meta_set_length:
 					reached_threshold = True
 			else:
 				input_label.append(data["labels"][i])
-				input_question.append(data["labels"][i])
+				input_question.append(data["q_ids"][i])
 
 		print("Filtered stats: ")
 		print(len(input_label))

@@ -204,9 +204,11 @@ print("Running test...")
 test_dataset_no_filter = Dataset(test_data, 155) # split into input/output
 test_dataset_filter = Dataset(test_data, 155, True)
 
-test_dataset_no_filter[0]
-test_dataset_filter[0]
-
+print("non filtered 1:")
+print(test_dataset_no_filter[0])
+print("="*30)
+print("filtered 1:")
+print(test_dataset_filter[0])
 
 
 # go through the students

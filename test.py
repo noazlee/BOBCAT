@@ -215,7 +215,6 @@ if __name__ == "__main__":
     print(f"Accuracy: {accuracy:.4f}")
     
     # Save sampled questions to CSV
-
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     csv_filename = f'outputs/sampled_questions_eedi3_active_{timestamp}.csv'
     save_questions_to_csv(sampled_data, csv_filename)
