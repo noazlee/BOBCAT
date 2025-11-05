@@ -217,9 +217,9 @@ if __name__ == "__main__":
     # Save sampled questions to CSV
 
     # timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    # csv_filename = f'outputs/sampled_questions_eedi3_active_{timestamp}.csv'
-    # save_questions_to_csv(sampled_data, csv_filename)
-    # print(f"Sampled questions saved to {csv_filename}")
+    csv_filename = f'outputs/sampled_questions_eedi3_active_{timestamp}.csv'
+    save_questions_to_csv(sampled_data, csv_filename)
+    print(f"Sampled questions saved to {csv_filename}")
     
     print("Sample of sampled questions (first 3 students):")
     for i, data in enumerate(sampled_data[:3]):
