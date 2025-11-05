@@ -11,7 +11,16 @@
 ## Tasks
 * Analyse CSVs - outputs/ - how many subjects sampled - CSV: outputs/sampled_questions_eedi3.csv - Leo
 * Working on biased sampling - Noah, Leo, Chloe
+	* first understand how biased sampling works
+	* go to test_biased and work that in there
 * Fixing test.py to save subject ids by question - not set (allow duplicates) - Noah
 * Filtering meta set sampling to a certain subject id - Chloe
 * validating test dataset (data_split in test.py) - Chloe
+
+
+## Filtering meta set:
+* Fair? Make sure we have constant number of qs in meta set
+1) Constant number of qs in meta set - associated with meta set - 5?
+	Ensure for every student we have same resolution on how well we are doing 
+
  

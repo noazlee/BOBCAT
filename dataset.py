@@ -14,12 +14,28 @@ class Dataset(data.Dataset):
         self.data = data
         self.seed = seed
 
+        # qs_by_sid = self._get_answered_qs_by_sid(subject_dict, subj_id)
+        # self.data = self._filter_data(self.data, qs_by_sid, count)
+
+
+    def _get_answered_qs_by_sid(self, subject_dict, subj_id):
+        # returns a list of all question ids / indices that have subject_dict answered in subj_id
+        pass
+
+    def _filter_data(qs_by_sid, count):
+        # new list that only contains objects from the old list
+        pass
+
     def __len__(self):
         'Denotes the total number of samples'
         return len(self.data)
 
+    def _get_answered_qs_by_sid(self, sub_dict, sid):
+        pass
+
     def __getitem__(self, index):
         # return self.data[index]
+        # filter -> make sure '5' of subj id is in the meta set, 
         'Generates one sample of data'
         data = self.data[index]
         observed_index = np.array([idx for idx in range(len(data['q_ids']))])
