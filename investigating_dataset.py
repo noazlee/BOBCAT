@@ -3,6 +3,7 @@ import torch.nn as nn
 import numpy as np
 from torch.utils.data import DataLoader
 import csv
+import pandas as pd
 
 from model import MAMLModel, device
 from dataset2 import Dataset, collate_fn
@@ -209,6 +210,52 @@ print(test_dataset_no_filter[0])
 print("="*30)
 print("filtered 1:")
 print(test_dataset_filter[0])
+
+df = pd.read_json('data/train_task_3_4.json')
+print(df.head())
+print(df.keys())
+print(df["subject_ids"][0])
+print(df["q_ids"][0])
+
+# making q to subject map
+q_to_subjects = {}
+
+# Iterate through each row (student)
+for _, row in df.iterrows():
+    q_ids = row['q_ids']
+    subject_ids = row['subject_ids']
+    
+    # For each question, collect its subjects
+    for q_id, subjects in zip(q_ids, subject_ids):
+        if q_id not in q_to_subjects:
+            q_to_subjects[q_id] = set()
+        
+        # subjects is a list like [148] or [163, 164]
+        for subj in subjects:
+            q_to_subjects[q_id].add(subj)
+
+# Convert to DataFrame
+result_df = pd.DataFrame([
+    {
+        'q_id': q_id, 
+        'subject_ids': sorted(set(subjects))
+    } 
+    for q_id, subjects in sorted(q_to_subjects.items())
+])
+
+# Save to CSV
+result_df.to_csv('data/q_id_to_subjects_mapping.csv', index=False)
+
+print(f"Created mapping for {len(result_df)} unique questions")
+print(result_df.head(10))
+
+# check the output qs of the filtered - looks good!
+print(q_to_subjects[111])
+print(q_to_subjects[276])
+print(q_to_subjects[314])
+print(q_to_subjects[926])
+print(q_to_subjects[831])
+print(q_to_subjects[134])
 
 
 # go through the students

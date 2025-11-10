@@ -38,7 +38,7 @@ class Dataset(data.Dataset):
 		filtered_students = []
 		
 		for student in data:
-			check = self._check_sid(student, cutoff, s_id)
+			check = self._check_sid(student, s_id, cutoff)
 			if check: 
 				filtered_students.append(student)
 		# go through each student in data
@@ -50,7 +50,7 @@ class Dataset(data.Dataset):
 	def __len__(self):
 		return len(self.data)
 
-	def _check_sid(self, student_data, cutoff = 55, sid = 155):
+	def _check_sid(self, student_data, sid, cutoff = 55):
 		# checks how many times subject id appears in this student
 		count = 0
 		q_ids = []
@@ -70,7 +70,7 @@ class Dataset(data.Dataset):
 
 		data = self.data[index]
 		if self.filter_by_meta_set and self.filter_id:
-			return self._getitem_filter(data)
+			return self._getitem_filter(data, index)
 
 		observed_index = np.array([idx for idx in range(len(data['q_ids']))])
 		if not self.seed:
@@ -87,11 +87,11 @@ class Dataset(data.Dataset):
 		output_label = data['labels'][target_index]
 		output_question = data['q_ids'][target_index]
 
-		print("Not filtered stats: ")
-		print(len(input_label))
-		print(len(input_question))
-		print(len(output_label))
-		print(len(output_question))
+		# print("Not filtered stats: ")
+		# print(len(input_label))
+		# print(len(input_question))
+		# print(len(output_label))
+		# print(len(output_question))
 
 		# added q ids, subject ids, for this user
 		output = {'input_label': torch.FloatTensor(input_label), 'input_question': torch.FloatTensor(input_question),
@@ -101,7 +101,7 @@ class Dataset(data.Dataset):
 		return output
 
 	# meta set filter
-	def _getitem_filter(self, data, meta_set_length = 40):
+	def _getitem_filter(self, data, index, meta_set_length = 40):
 		# return self.data[index]
 		# filter -> make sure '5' of subj id is in the meta set, 
 		'Generates one sample of data'
@@ -130,12 +130,11 @@ class Dataset(data.Dataset):
 				input_label.append(data["labels"][i])
 				input_question.append(data["q_ids"][i])
 
-		print("Filtered stats: ")
-		print(len(input_label))
-		print(len(input_question))
-		print(len(output_label))
-		print(len(output_question))
-
+		# print("Filtered stats: ")
+		# print(len(input_label))
+		# print(len(input_question))
+		# print(len(output_label))
+		# print(len(output_question))
 
 		# input_ans = data['ans'][trainable_index]
 		# input_label = data['labels'][trainable_index]
@@ -144,10 +143,11 @@ class Dataset(data.Dataset):
 		# output_question = data['q_ids'][target_index]
 
 		# added q ids, subject ids, for this user
+		subject_id = self.filter_id
 		output = {'input_label': torch.FloatTensor(input_label), 'input_question': torch.FloatTensor(input_question),
 					'output_question': torch.FloatTensor(output_question), 'output_label': torch.FloatTensor(output_label),
 					'user_id': data['user_id'],  'all_q_ids': data['q_ids'],  'all_subject_ids': data['subject_ids'],
-					'enough_sids': self._check_sid(data, sid = 155) }
+					'enough_sids': self._check_sid(data, sid = subject_id) }
 		# 'input_ans': torch.FloatTensor(input_ans)
 		return output
 

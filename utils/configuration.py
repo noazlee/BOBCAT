@@ -34,6 +34,8 @@ def create_parser():
     parser.add_argument('--use_cuda', action='store_true')
     parser.add_argument('--save', action='store_true')
     parser.add_argument('--neptune', action='store_true')
+    parser.add_argument('--sid_filtered', type=int, help='type')
+    parser.add_argument('--meta_filtered', action='store_true')
     params = parser.parse_args()
     #
     if params.dataset == 'eedi-3':

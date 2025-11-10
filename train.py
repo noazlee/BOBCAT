@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 import os
-from dataset import Dataset, collate_fn
+from dataset2 import Dataset, collate_fn
 from utils.utils import compute_auc, compute_accuracy, data_split, batch_accuracy
 from model import MAMLModel
 from policy import PPO, Memory, StraightThrough
@@ -347,13 +347,15 @@ if __name__ == "__main__":
     if params.use_cuda:
         assert device.type == 'cuda', 'no gpu found!'
 
+    meta_filtered = True if params.meta_filtered else False
+
     if params.neptune:
         import neptune
         project = "noazlee-workspace/BOBCAT"
         run = neptune.init_run(
             project=project,
             api_token=os.environ["NEPTUNE_API_TOKEN"],
-            name=f"{params.model},{params.n_query},{params.dataset}",
+            name=f"{params.sid_filtered}, {meta_filtered}, {params.model},{params.n_query},{params.dataset}",
         )
         run["parameters"] = vars(params)
 
@@ -405,8 +407,15 @@ if __name__ == "__main__":
     print("train data:",train_data[0], len(train_data)) # 2952 - user_id, subject_ids: [[], []], q_ids: nparray, labels: nparray
     print("valid data:",valid_data[0], len(valid_data)) # 983
     print("test data:",test_data[0], len(test_data))    # 983 - Save students here!
-    train_dataset, valid_dataset, test_dataset = Dataset(
-        train_data), Dataset(valid_data), Dataset(test_data)
+    if params.sid_filtered:
+        train_dataset, valid_dataset, test_dataset = Dataset(
+        train_data, params.sid_filtered, meta_filtered), Dataset(valid_data, params.sid_filtered, meta_filtered), Dataset(test_data, params.sid_filtered, meta_filtered)
+    else:
+        train_dataset, valid_dataset, test_dataset = Dataset(
+            train_data), Dataset(valid_data), Dataset(test_data)
+
+    # FILTERING BY PEOPLE WITH SUBJECT ID = 155 - 665 train, 214 valid, 215 test
+    
     #
     num_workers = 3
     collate_fn = collate_fn(params.n_question)
@@ -414,19 +423,22 @@ if __name__ == "__main__":
         train_dataset, collate_fn=collate_fn, batch_size=params.train_batch_size, num_workers=num_workers, shuffle=True, drop_last=True)
     start_time = time.time()
 
-    for epoch in range(params.n_epoch):
+    for epoch in range(params.n_epoch): #CHANGE LATER
         train_model()
         if epoch >= (best_epoch+params.wait):
             break
 
     
     # Save final model
-    if not os.path.exists('saved_models'): 
-        os.makedirs('saved_models') 
+    if not os.path.exists('saved_models_exp1'): 
+        os.makedirs('saved_models_exp1') 
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        
-    model_save_path = f"saved_models/bobcat_final_{params.dataset}_{params.model}_{params.n_query}_{timestamp}.pt" 
+    if params.sid_filtered:
+        model_save_path = f"saved_models_exp1/bobcat_final_{params.sid_filtered}_{params.meta_filtered}_{params.dataset}_{params.model}_{params.n_query}_{timestamp}.pt" 
+    else:
+        model_save_path = f"saved_models_exp1/bobcat_final_{params.dataset}_{params.model}_{params.n_query}_{timestamp}.pt" 
+
     torch.save({ 'epoch': epoch, 
         'model_state_dict': model.state_dict(), 
         'meta_params': meta_params, 

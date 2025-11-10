@@ -5,6 +5,13 @@ Forked repository of the paper [BOBCAT: Bilevel Optimization-Based Computerized 
 
 `In this paper, we propose BOBCAT, a Bilevel Optimization-Based framework for CAT to directly learn a data-driven question selection algorithm from training data. We show that BOBCAT outperforms existing CAT methods (sometimes significantly) at reducing test length.`
 
+## Experiment 1:
+```
+python3 train.py --neptune --dataset eedi-3 --model biirt-active --n_query 10 --use_cuda --sid_filtered 155 --meta_filtered
+```
+- Training on biirt-active with sid_filtered = 155 (filtering student by sid = 155) and filtering meta set on training/validation/testing
+- do not put --meta_filtered on if we are testing generally - only if we want to see if meta set filtering will help.
+
 
 ## Environment Setup
 This repository uses the following packages in Python3.
