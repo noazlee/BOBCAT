@@ -14,15 +14,20 @@ class Dataset(data.Dataset):
 	def __init__(self, data, filter_id=None, filter_by_meta_set=False, seed=None):
 		self.data = data
 		self.seed = seed
-		self.filter_id = filter_id
+
+		if filter_id is not None:
+			self.filter_id = filter_id if isinstance(filter_id, list) else [filter_id]
+		else:
+			self.filter_id = None
+
 		self.filter_by_meta_set = filter_by_meta_set
 
-		if filter_id:
+		if self.filter_id:
 			print("old data length:",len(self.data))
 
-			self.data = self._filter_data(self.data, filter_id, 55)
+			self.data = self._filter_data(self.data, self.filter_id, 55)
 
-			print(f"data with more than 55 qs of subject id = {filter_id}:",len(self.data))
+			print(f"data with more than 55 qs of subject id = {self.filter_id}:",len(self.data))
 
 		# we have filtered by students with more than [threshold] qs of a subject id
 
@@ -32,13 +37,13 @@ class Dataset(data.Dataset):
 		# self.data = self._filter_data(self.data, qs_by_sid, count)
 
 
-	def _filter_data(self, data, s_id, cutoff = 55):
-		print("filtering data by", s_id)
+	def _filter_data(self, data, s_ids, cutoff = 55):
+		print("filtering data by", s_ids)
 
 		filtered_students = []
 		
 		for student in data:
-			check = self._check_sid(student, s_id, cutoff)
+			check = self._check_sid(student, s_ids, cutoff)
 			if check: 
 				filtered_students.append(student)
 		# go through each student in data
@@ -50,13 +55,13 @@ class Dataset(data.Dataset):
 	def __len__(self):
 		return len(self.data)
 
-	def _check_sid(self, student_data, sid, cutoff = 55):
+	def _check_sid(self, student_data, sids, cutoff = 55):
 		# checks how many times subject id appears in this student
 		count = 0
 		q_ids = []
-		# print(f"Student {student_data['user_id']}")
+		
 		for i, ids in enumerate(student_data['subject_ids']):
-			if sid in ids:
+			if any(sid in ids for sid in sids):
 				q_ids.append(student_data["q_ids"][i])
 				count += 1 
 		
@@ -121,7 +126,7 @@ class Dataset(data.Dataset):
 
 		for i in observed_index:
 			question, subject_ids = data["q_ids"][i], data["subject_ids"][i]
-			if self.filter_id in subject_ids and not reached_threshold:
+			if any(fid in subject_ids for fid in self.filter_id) and not reached_threshold:
 				output_label.append(data["labels"][i])
 				output_question.append(data["q_ids"][i])
 				if len(output_label) == meta_set_length:
@@ -143,11 +148,10 @@ class Dataset(data.Dataset):
 		# output_question = data['q_ids'][target_index]
 
 		# added q ids, subject ids, for this user
-		subject_id = self.filter_id
 		output = {'input_label': torch.FloatTensor(input_label), 'input_question': torch.FloatTensor(input_question),
 					'output_question': torch.FloatTensor(output_question), 'output_label': torch.FloatTensor(output_label),
 					'user_id': data['user_id'],  'all_q_ids': data['q_ids'],  'all_subject_ids': data['subject_ids'],
-					'enough_sids': self._check_sid(data, sid = subject_id) }
+					'enough_sids': self._check_sid(data, sids=self.filter_id) }
 		# 'input_ans': torch.FloatTensor(input_ans)
 		return output
 
