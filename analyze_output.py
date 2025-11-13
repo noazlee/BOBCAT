@@ -124,7 +124,7 @@ def main():
     #top_ten_subjects(df)
     subject_question_answered_relation(df)
     #subject_pie_top_n(df, top_n=10, max_total_questions=250)
-    #subject_pie_top_n(df, top_n=10, max_total_questions=None)
+    #subject_pie_top_n(df, top_n=15, max_total_questions=None)
     compare_subject_pies(df, top_n=15, max_total_questions=250)
 
 
