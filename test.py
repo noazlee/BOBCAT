@@ -3,14 +3,15 @@ import torch.nn as nn
 import numpy as np
 from torch.utils.data import DataLoader
 import csv
+from datetime import datetime
 
 from model import MAMLModel, device
-from dataset import Dataset, collate_fn
+from dataset2 import Dataset, collate_fn
 from utils.utils import open_json, dump_json, compute_auc, compute_accuracy, data_split, try_makedirs
 
 def load_model():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    checkpoint = torch.load("saved_models/bobcat_final_eedi-3_biirt-active_10_20251022_220751.pt", map_location=device)
+    checkpoint = torch.load("saved_models_exp1/bobcat_final_163_164_165_False_eedi-3_biirt-active_10_20251112_224101.pt", map_location=device)
     print(checkpoint.keys())
     print(checkpoint["model_state_dict"].keys())
     print(checkpoint["params"].keys())

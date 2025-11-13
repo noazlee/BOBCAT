@@ -344,6 +344,7 @@ def test_model(id_, split='val'):
 if __name__ == "__main__":
     params = create_parser()
     print(params)
+    print(params.sid_filtered)
     if params.use_cuda:
         assert device.type == 'cuda', 'no gpu found!'
 
@@ -352,10 +353,10 @@ if __name__ == "__main__":
     if params.neptune:
         import neptune
         project = "noazlee-workspace/BOBCAT"
-        run = neptune.init_run(
+        run = neptune.init_run(  
             project=project,
             api_token=os.environ["NEPTUNE_API_TOKEN"],
-            name=f"{params.sid_filtered}, {meta_filtered}, {params.model},{params.n_query},{params.dataset}",
+            name=f"{params.sid_filtered_str}, {meta_filtered}, {params.model},{params.n_query},{params.dataset}",
         )
         run["parameters"] = vars(params)
 
@@ -435,7 +436,7 @@ if __name__ == "__main__":
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     if params.sid_filtered:
-        model_save_path = f"saved_models_exp1/bobcat_final_{params.sid_filtered}_{params.meta_filtered}_{params.dataset}_{params.model}_{params.n_query}_{timestamp}.pt" 
+        model_save_path = f"saved_models_exp1/bobcat_final_{params.sid_filtered_str}_{params.meta_filtered}_{params.dataset}_{params.model}_{params.n_query}_{timestamp}.pt" 
     else:
         model_save_path = f"saved_models_exp1/bobcat_final_{params.dataset}_{params.model}_{params.n_query}_{timestamp}.pt" 
 

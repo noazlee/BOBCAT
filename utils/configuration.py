@@ -34,7 +34,12 @@ def create_parser():
     parser.add_argument('--use_cuda', action='store_true')
     parser.add_argument('--save', action='store_true')
     parser.add_argument('--neptune', action='store_true')
-    parser.add_argument('--sid_filtered', type=int, help='type')
+    parser.add_argument(
+        '--sid_filtered',
+        type=int, 
+        nargs='+',
+        help='Subject ID(s) to filter by. Can be single ID or multiple IDs separated by spaces'
+    )
     parser.add_argument('--meta_filtered', action='store_true')
     params = parser.parse_args()
     #
@@ -73,5 +78,10 @@ def create_parser():
         params.test_batch_size = 512
         params.wait = 50
         params.repeat = 2
+
+    if params.sid_filtered:
+        params.sid_filtered_str = '_'.join(map(str, params.sid_filtered))
+    else:
+        params.sid_filtered_str = None
 
     return params
