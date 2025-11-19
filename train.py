@@ -33,7 +33,7 @@ def inner_algo(batch, config, new_params, create_graph=False):
     for _ in range(params.inner_loop):
         config['meta_param'] = new_params[0]
         res = model(batch, config)
-        loss = res['train_loss']
+        loss = res['train_loss']    
         grads = torch.autograd.grad(
             loss, new_params, create_graph=create_graph)
         new_params = [(new_params[i] - params.inner_lr*grads[i])
@@ -83,7 +83,7 @@ def run_unbiased(batch, config):
     inner_algo(batch, config, new_params)
     if config['mode'] == 'train':
         res = model(batch, config)
-        loss = res['loss']
+        loss = res['loss'] # ONLY META LOSS
         loss.backward()
         optimizer.step()
         meta_params_optimizer.step()
@@ -150,6 +150,7 @@ def run_biased(batch, config):
         optimizer.zero_grad()
         res = model(batch, config)
         loss = res['loss']
+        # loss = 0.9 * res['loss'] + 0.1 * res['train_loss']
         loss.backward()
         optimizer.step()
         meta_params_optimizer.step()
@@ -184,7 +185,10 @@ def run_random(batch, config, batch_idx=None):
 
     if config['mode'] == 'train':
         res = model(batch, config)
-        loss = res['loss']
+        # trainloss = res['train_loss']
+        # trainloss.backward()
+        loss = res['loss'] # ONLY META LOSS - WE DONT LEARN ANYTHING OTHER THAN SUBJECT 155 QUESTIONS
+        # Weight the losses appropriately: loss = res['loss'] + 0.5 * res['train_loss']  
         loss.backward()
         optimizer.step()
         meta_params_optimizer.step()
@@ -370,7 +374,7 @@ if __name__ == "__main__":
                           n_question=params.n_question, question_dim=1).to(device)
         meta_params = [torch.Tensor(
             1, 1).normal_(-1., 1.).to(device).requires_grad_()]
-    if base == 'binn':
+    if base == 'binn': # try binn instead
         model = MAMLModel(sampling=sampling, n_query=params.n_query,
                           n_question=params.n_question, question_dim=params.question_dim).to(device)
         meta_params = [torch.Tensor(
@@ -409,11 +413,16 @@ if __name__ == "__main__":
     print("valid data:",valid_data[0], len(valid_data)) # 983
     print("test data:",test_data[0], len(test_data))    # 983 - Save students here!
     if params.sid_filtered:
-        train_dataset, valid_dataset, test_dataset = Dataset(
-        train_data, params.sid_filtered, meta_filtered), Dataset(valid_data, params.sid_filtered, meta_filtered), Dataset(test_data, params.sid_filtered, meta_filtered)
+        # Training: NO filtering, model sees all questions 
+        # 100 random - filter on meta set, teaching it what kind of thing it wants to predict
+        train_dataset = Dataset(train_data, filter_id=params.sid_filtered, filter_by_meta_set=params.meta_filtered)
+        # Validation/Test: WITH filtering, ensures subject 155 in meta set
+        valid_dataset = Dataset(valid_data, params.sid_filtered, filter_by_meta_set=True) # Filter meta set for all - make 40 met aset for all
+        test_dataset = Dataset(test_data, params.sid_filtered, filter_by_meta_set=True)   # fix control comparison, rerun with true/false
     else:
-        train_dataset, valid_dataset, test_dataset = Dataset(
-            train_data), Dataset(valid_data), Dataset(test_data)
+        train_dataset = Dataset(train_data)
+        valid_dataset = Dataset(valid_data)
+        test_dataset = Dataset(test_data)
 
     # FILTERING BY PEOPLE WITH SUBJECT ID = 155 - 665 train, 214 valid, 215 test
     

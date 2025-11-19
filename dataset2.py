@@ -82,9 +82,16 @@ class Dataset(data.Dataset):
 			np.random.shuffle(observed_index)
 		else:
 			random.Random(index+self.seed).shuffle(observed_index)
+		
 		N = len(observed_index)
-		target_index = observed_index[-N//5:]
-		trainable_index = observed_index[:-N//5]
+		# Ensure exactly 40 in meta set, rest in trainable
+		target_size = 40
+		if N < target_size:
+			# If not enough samples, use all available for target
+			target_size = N
+		
+		target_index = observed_index[-target_size:]
+		trainable_index = observed_index[:-target_size]
 
 		# input_ans = data['ans'][trainable_index]
 		input_label = data['labels'][trainable_index]
@@ -98,12 +105,17 @@ class Dataset(data.Dataset):
 		# print(len(output_label))
 		# print(len(output_question))
 
+		# print(f"DEBUG __getitem__:")
+		# print(f"  input_question (first 20): {input_question[:20]}")
+		# print(f"  all_q_ids (first 20): {data['q_ids'][:20]}")
+
 		# added q ids, subject ids, for this user
 		output = {'input_label': torch.FloatTensor(input_label), 'input_question': torch.FloatTensor(input_question),
 					'output_question': torch.FloatTensor(output_question), 'output_label': torch.FloatTensor(output_label),
 					'user_id': data['user_id'],  'all_q_ids': data['q_ids'],  'all_subject_ids': data['subject_ids']}
 		# 'input_ans': torch.FloatTensor(input_ans)
 		return output
+		
 
 	# meta set filter
 	def _getitem_filter(self, data, index, meta_set_length = 40):
@@ -135,6 +147,10 @@ class Dataset(data.Dataset):
 				input_label.append(data["labels"][i])
 				input_question.append(data["q_ids"][i])
 
+		# print(f"DEBUG _getitem_filter:")
+		# print(f"  input_question (first 20): {input_question[:20]}")
+		# print(f"  all_q_ids (first 20): {data['q_ids'][:20]}")
+
 		# print("Filtered stats: ")
 		# print(len(input_label))
 		# print(len(input_question))
@@ -146,6 +162,11 @@ class Dataset(data.Dataset):
 		# input_question = data['q_ids'][trainable_index]
 		# output_label = data['labels'][target_index]
 		# output_question = data['q_ids'][target_index]
+
+		input_label = np.array(input_label)
+		input_question = np.array(input_question)
+		output_label = np.array(output_label)
+		output_question = np.array(output_question)
 
 		# added q ids, subject ids, for this user
 		output = {'input_label': torch.FloatTensor(input_label), 'input_question': torch.FloatTensor(input_question),

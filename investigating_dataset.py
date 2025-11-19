@@ -202,19 +202,11 @@ print(f"Test set size: {len(test_data)} students")
 # Run testing
 print("Running test...")
 
-test_dataset_no_filter = Dataset(test_data, [163,164,165]) # split into input/output
-test_dataset_filter = Dataset(test_data, [163,164,165], True)
+test_dataset_no_filter = Dataset(test_data, 155) # split into input/output
+test_dataset_filter = Dataset(test_data, 155, True)
 
-print(len(test_dataset_no_filter))
-print(len(test_dataset_filter))
-
-print("non filtered 1:")
-print(test_dataset_no_filter[0])
-print(len(test_dataset_no_filter[0]['input_label']), len(test_dataset_no_filter[0]['output_label']))
-print("="*30)
-print("filtered 1:")
-print(test_dataset_filter[0])
-print(len(test_dataset_filter[0]['input_label']), len(test_dataset_filter[0]['output_label']))
+test_dataset_no_filter[0]
+test_dataset_filter[0]
 
 # df = pd.read_json('data/train_task_3_4.json')
 # print(df.head())

@@ -1,0 +1,1056 @@
+
+================================================================================
+STEP 1: UNDERSTAND ORIGINAL DATA
+================================================================================
+================================================================================
+INVESTIGATING DATASET FILTERING
+================================================================================
+
+Original data sizes:
+  Train: 2952 students
+  Valid: 983 students
+  Test: 983 students
+
+================================================================================
+ANALYZING STUDENTS BEFORE FILTERING
+================================================================================
+
+Student 0 (user_id: 5127):
+  Total questions: 89
+  Questions with subject 155: 16 (18.0%)
+  Total unique subjects: 23
+  Subject 155 q_ids (first 10): [np.int64(278), np.int64(80), np.int64(738), np.int64(831), np.int64(234), np.int64(111), np.int64(183), np.int64(605), np.int64(926), np.int64(360)]
+
+Student 1 (user_id: 5088):
+  Total questions: 116
+  Questions with subject 155: 12 (10.3%)
+  Total unique subjects: 13
+  Subject 155 q_ids (first 10): [np.int64(278), np.int64(80), np.int64(738), np.int64(234), np.int64(831), np.int64(111), np.int64(183), np.int64(926), np.int64(360), np.int64(605)]
+
+Student 2 (user_id: 2698):
+  Total questions: 361
+  Questions with subject 155: 0 (0.0%)
+  Total unique subjects: 31
+  Subject 155 q_ids (first 10): []
+
+================================================================================
+CREATING FILTERED DATASETS
+================================================================================
+
+Filtered dataset size (meta_filtered=True): 665 students
+Unfiltered dataset size (meta_filtered=False): 665 students
+
+================================================================================
+INVESTIGATING ORIGINAL STUDENT DATA
+================================================================================
+
+Students with >=55 questions of subject 155: 665
+
+Student 2532:
+  Total questions: 535
+  Questions with subject 155: 56
+  Total unique subjects: 38
+  Top 5 subjects: [(155, 56), (148, 51), (156, 42), (3, 30), (163, 26)]
+  Question ID range: 0 to 945
+  First 20 q_ids: [685 222 798 581 546 706 790 825  25 804 601 464 473 932 751 472 475  92
+ 787 154]
+
+Student 4522:
+  Total questions: 226
+  Questions with subject 155: 56
+  Total unique subjects: 28
+  Top 5 subjects: [(155, 56), (156, 42), (195, 19), (154, 15), (127, 10)]
+  Question ID range: 2 to 945
+  First 20 q_ids: [199 911 764 252 405 547 922 332 178  50 867 529 460 639 143 736 676 599
+ 754 461]
+
+Student 3524:
+  Total questions: 553
+  Questions with subject 155: 57
+  Total unique subjects: 42
+  Top 5 subjects: [(155, 57), (148, 51), (156, 42), (3, 30), (163, 27)]
+  Question ID range: 0 to 945
+  First 20 q_ids: [684  87 679 685 222 798  26 581 491 880 594 546 706  55 790 659 825  25
+ 804 601]
+
+Student 370:
+  Total questions: 553
+  Questions with subject 155: 57
+  Total unique subjects: 42
+  Top 5 subjects: [(155, 57), (148, 51), (156, 42), (3, 30), (163, 27)]
+  Question ID range: 0 to 945
+  First 20 q_ids: [790 825  25 804 601 464 473 751 292 506 472 679 222 798 581 491 880 594
+ 546 706]
+
+Student 577:
+  Total questions: 582
+  Questions with subject 155: 56
+  Total unique subjects: 38
+  Top 5 subjects: [(155, 56), (148, 51), (156, 42), (3, 30), (163, 26)]
+  Question ID range: 0 to 945
+  First 20 q_ids: [547 911 405 332 922 199 764 252 867 178 599 639 529  50 143 736 460 676
+ 133 469]
+
+Student 439:
+  Total questions: 353
+  Questions with subject 155: 56
+  Total unique subjects: 29
+  Top 5 subjects: [(155, 56), (156, 42), (3, 25), (39, 25), (36, 22)]
+  Question ID range: 2 to 945
+  First 20 q_ids: [451 714 133 260 469 896 791 509 147 539 485 211 327 369 911 199 764 405
+ 922 547]
+
+Student 6012:
+  Total questions: 474
+  Questions with subject 155: 56
+  Total unique subjects: 33
+  Top 5 subjects: [(155, 56), (148, 51), (156, 42), (3, 30), (163, 26)]
+  Question ID range: 0 to 945
+  First 20 q_ids: [790 659 825  25 804 473 601 464 932 751 292 506 472 767 212 475  92 787
+ 154 169]
+
+Student 761:
+  Total questions: 577
+  Questions with subject 155: 56
+  Total unique subjects: 43
+  Top 5 subjects: [(155, 56), (148, 42), (156, 42), (3, 30), (163, 26)]
+  Question ID range: 0 to 945
+  First 20 q_ids: [684  87 679 685 222 798 581  26 491 880 594 546  55 706 790 825 659  25
+ 804 601]
+
+Student 3192:
+  Total questions: 606
+  Questions with subject 155: 56
+  Total unique subjects: 47
+  Top 5 subjects: [(155, 56), (148, 51), (156, 42), (3, 30), (163, 26)]
+  Question ID range: 0 to 945
+  First 20 q_ids: [684  87 685 679 222 798  26 581 594 880 546 706  55 790 659 825  25 464
+ 473 751]
+
+Student 4628:
+  Total questions: 519
+  Questions with subject 155: 56
+  Total unique subjects: 40
+  Top 5 subjects: [(155, 56), (148, 51), (156, 42), (3, 30), (163, 26)]
+  Question ID range: 0 to 945
+  First 20 q_ids: [790 659 825  25 804 601 464 473 932 751 292 506 472 767 212 475  92 787
+ 154 169]
+
+Student 175:
+  Total questions: 515
+  Questions with subject 155: 58
+  Total unique subjects: 44
+  Top 5 subjects: [(155, 58), (148, 52), (156, 43), (3, 31), (163, 26)]
+  Question ID range: 0 to 947
+  First 20 q_ids: [790 659 601  25 825 464 473 506 292 472 212  92 475 767 787 154 304 165
+ 169 624]
+
+Student 5102:
+  Total questions: 485
+  Questions with subject 155: 56
+  Total unique subjects: 42
+  Top 5 subjects: [(155, 56), (156, 42), (3, 30), (148, 29), (163, 26)]
+  Question ID range: 0 to 945
+  First 20 q_ids: [684  87 679 685 222 798  26 491 880 546 706  55 581 594 790 659 825  25
+ 804 601]
+
+Student 2496:
+  Total questions: 488
+  Questions with subject 155: 56
+  Total unique subjects: 42
+  Top 5 subjects: [(155, 56), (156, 42), (3, 30), (39, 25), (36, 22)]
+  Question ID range: 2 to 945
+  First 20 q_ids: [684  87 679 685 222 798  26 581 491 880 594 546 706  55 790 659 825  25
+ 804 601]
+
+Student 1841:
+  Total questions: 484
+  Questions with subject 155: 56
+  Total unique subjects: 40
+  Top 5 subjects: [(155, 56), (148, 43), (156, 42), (36, 22), (164, 20)]
+  Question ID range: 0 to 945
+  First 20 q_ids: [659 825  25 464 473 751 292 472 506 601 932 790 804 212 767 475 154 787
+  92 304]
+
+Student 5066:
+  Total questions: 732
+  Questions with subject 155: 57
+  Total unique subjects: 53
+  Top 5 subjects: [(155, 57), (148, 51), (156, 42), (163, 35), (164, 31)]
+  Question ID range: 0 to 947
+  First 20 q_ids: [ 25 825 804 601 464 473 932 751 292 506 472 212 475  92 154 787 169 304
+ 615 735]
+
+Student 226:
+  Total questions: 462
+  Questions with subject 155: 58
+  Total unique subjects: 38
+  Top 5 subjects: [(155, 58), (156, 43), (3, 31), (148, 30), (163, 26)]
+  Question ID range: 0 to 947
+  First 20 q_ids: [550 835 137 564  97 404 902 584 124 782 441 236 363 349 873 295 768 274
+ 664  39]
+
+Student 2324:
+  Total questions: 594
+  Questions with subject 155: 56
+  Total unique subjects: 40
+  Top 5 subjects: [(155, 56), (148, 51), (156, 42), (3, 30), (163, 26)]
+  Question ID range: 0 to 945
+  First 20 q_ids: [199 911 764 405 252 547 332 922 178  50 460 867 529 143 639 736 676 599
+ 754 461]
+
+Student 741:
+  Total questions: 691
+  Questions with subject 155: 59
+  Total unique subjects: 52
+  Top 5 subjects: [(155, 59), (156, 43), (148, 39), (3, 31), (163, 28)]
+  Question ID range: 0 to 947
+  First 20 q_ids: [202 403 420 261 503 566 289  72 326 241 226 674 634  65 616 342 449 828
+   0 758]
+
+Student 521:
+  Total questions: 536
+  Questions with subject 155: 56
+  Total unique subjects: 40
+  Top 5 subjects: [(155, 56), (148, 51), (156, 42), (3, 30), (163, 26)]
+  Question ID range: 0 to 945
+  First 20 q_ids: [790 825 659  25 601 804 464 473 932 751 292 472 506 767 212 475  92 787
+ 154 169]
+
+Student 198:
+  Total questions: 517
+  Questions with subject 155: 56
+  Total unique subjects: 38
+  Top 5 subjects: [(155, 56), (156, 42), (3, 30), (148, 29), (163, 26)]
+  Question ID range: 0 to 945
+  First 20 q_ids: [830 644 924 519 889 285 410 480 640 522 629  53 803  75 101 333 742 190
+ 890  59]
+
+================================================================================
+OVERALL STATISTICS (first 20 filtered students)
+================================================================================
+
+Unique question IDs seen: 850 out of 948
+Coverage: 89.7%
+
+Most common questions:
+  Q199: appears in 20/20 students
+  Q911: appears in 20/20 students
+  Q764: appears in 20/20 students
+  Q405: appears in 20/20 students
+  Q178: appears in 20/20 students
+  Q529: appears in 20/20 students
+  Q867: appears in 20/20 students
+  Q143: appears in 20/20 students
+  Q676: appears in 20/20 students
+  Q736: appears in 20/20 students
+
+Questions never seen (in these 20 students): 98
+  IDs (first 20): [1, 15, 32, 33, 35, 57, 98, 102, 108, 112, 113, 114, 115, 117, 127, 136, 139, 149, 153, 166]
+
+
+
+
+================================================================================
+ANALYZING BATCHES: FILTERED (meta_filtered=True)
+================================================================================
+
+--- Batch 0 ---
+Batch size: 32 students
+
+  Student 0 (user_id: 2532):
+    Input (trainable) questions: 495
+    Output (meta) questions: 40
+    Total questions: 535
+    Input q_ids (first 20): [0, 2, 3, 4, 6, 8, 10, 11, 12, 14, 16, 18, 19, 20, 22, 24, 25, 26, 27, 29]
+    Output q_ids (first 20): [45, 79, 111, 134, 143, 183, 199, 234, 238, 242, 276, 278, 281, 311, 360, 361, 402, 460, 463, 517]
+    Subjects in first 10 output questions: [[163], [153], [163], [163], [165], [155], [156], [155], [155], [39]]
+    Questions with subject 155 in first 10 output: 3
+
+  Student 1 (user_id: 4522):
+    Input (trainable) questions: 186
+    Output (meta) questions: 40
+    Total questions: 226
+    Input q_ids (first 20): [2, 3, 6, 11, 12, 18, 20, 24, 27, 29, 30, 31, 34, 37, 39, 46, 47, 49, 50, 51]
+    Output q_ids (first 20): [45, 80, 134, 143, 178, 183, 199, 234, 238, 276, 278, 281, 314, 337, 360, 361, 402, 460, 461, 463]
+    Subjects in first 10 output questions: [[155], [3, 156], [195], [146], [42], [126], [219]]
+    Questions with subject 155 in first 10 output: 1
+
+  Student 2 (user_id: 3524):
+    Input (trainable) questions: 513
+    Output (meta) questions: 40
+    Total questions: 553
+    Input q_ids (first 20): [0, 2, 6, 8, 10, 11, 14, 16, 18, 19, 22, 23, 24, 25, 26, 27, 29, 30, 31, 34]
+    Output q_ids (first 20): [3, 79, 80, 134, 143, 183, 199, 209, 238, 276, 278, 281, 311, 314, 337, 372, 402, 460, 461, 463]
+    Subjects in first 10 output questions: [[153], [163], [163], [163], [163], [155], [155], [155], [156], [155]]
+    Questions with subject 155 in first 10 output: 4
+
+--- Batch 1 ---
+Batch size: 32 students
+
+  Student 0 (user_id: 735):
+    Input (trainable) questions: 454
+    Output (meta) questions: 40
+    Total questions: 494
+    Input q_ids (first 20): [0, 2, 3, 6, 8, 11, 16, 18, 19, 22, 24, 26, 27, 29, 30, 31, 32, 34, 35, 37]
+    Output q_ids (first 20): [45, 79, 80, 134, 178, 183, 199, 209, 234, 242, 278, 281, 314, 337, 360, 372, 377, 460, 461, 463]
+    Subjects in first 10 output questions: [[164], [189], [154], [3], [155], [155], [36], [155], [117], [156]]
+    Questions with subject 155 in first 10 output: 3
+
+  Student 1 (user_id: 3314):
+    Input (trainable) questions: 513
+    Output (meta) questions: 40
+    Total questions: 553
+    Input q_ids (first 20): [0, 2, 3, 6, 8, 10, 11, 14, 16, 18, 19, 22, 23, 24, 25, 26, 27, 29, 30, 31]
+    Output q_ids (first 20): [45, 79, 80, 111, 134, 143, 178, 183, 209, 238, 276, 278, 281, 311, 337, 361, 460, 463, 500, 527]
+    Subjects in first 10 output questions: [[148], [163], [163], [164], [163], [163], [154], [155], [155], [156]]
+    Questions with subject 155 in first 10 output: 2
+
+  Student 2 (user_id: 2004):
+    Input (trainable) questions: 394
+    Output (meta) questions: 40
+    Total questions: 434
+    Input q_ids (first 20): [0, 2, 6, 8, 11, 16, 18, 19, 22, 24, 25, 26, 27, 29, 30, 31, 34, 37, 38, 39]
+    Output q_ids (first 20): [3, 45, 79, 143, 183, 199, 209, 238, 276, 278, 281, 311, 314, 337, 372, 402, 460, 461, 463, 500]
+    Subjects in first 10 output questions: [[39], [3, 156], [117], [155], [155], [156], [156], [155], [148], [148]]
+    Questions with subject 155 in first 10 output: 3
+
+--- Batch 2 ---
+Batch size: 32 students
+
+  Student 0 (user_id: 2310):
+    Input (trainable) questions: 264
+    Output (meta) questions: 40
+    Total questions: 304
+    Input q_ids (first 20): [2, 3, 4, 6, 11, 12, 18, 20, 24, 27, 29, 30, 31, 34, 37, 39, 44, 45, 46, 47]
+    Output q_ids (first 20): [79, 80, 111, 134, 178, 183, 199, 209, 234, 238, 278, 314, 337, 361, 372, 461, 500, 527, 529, 547]
+    Subjects in first 10 output questions: [[156], [156], [175], [195], [42], [126], [219], [137], [127], [127]]
+    Questions with subject 155 in first 10 output: 0
+
+  Student 1 (user_id: 5714):
+    Input (trainable) questions: 385
+    Output (meta) questions: 40
+    Total questions: 425
+    Input q_ids (first 20): [2, 3, 4, 6, 8, 11, 14, 16, 18, 19, 24, 27, 29, 30, 31, 34, 37, 38, 39, 40]
+    Output q_ids (first 20): [45, 79, 80, 111, 143, 178, 183, 209, 234, 242, 278, 281, 311, 314, 360, 361, 402, 460, 463, 500]
+    Subjects in first 10 output questions: [[36], [148], [155], [155], [155], [21], [163], [220], [114], [156]]
+    Questions with subject 155 in first 10 output: 3
+
+  Student 2 (user_id: 4977):
+    Input (trainable) questions: 698
+    Output (meta) questions: 40
+    Total questions: 738
+    Input q_ids (first 20): [0, 2, 6, 8, 10, 11, 14, 16, 17, 18, 19, 21, 22, 23, 24, 27, 29, 30, 31, 34]
+    Output q_ids (first 20): [3, 45, 79, 80, 111, 134, 178, 183, 199, 238, 242, 276, 278, 281, 311, 337, 372, 402, 460, 461]
+    Subjects in first 10 output questions: [[163], [153], [148], [164], [163], [155], [155], [21], [154], [36]]
+    Questions with subject 155 in first 10 output: 2
+
+--- Batch 3 ---
+Batch size: 32 students
+
+  Student 0 (user_id: 40):
+    Input (trainable) questions: 668
+    Output (meta) questions: 40
+    Total questions: 708
+    Input q_ids (first 20): [0, 2, 4, 6, 8, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 22, 23, 24, 25, 26]
+    Output q_ids (first 20): [3, 45, 79, 80, 111, 134, 178, 199, 234, 242, 276, 278, 281, 311, 314, 360, 361, 372, 377, 402]
+    Subjects in first 10 output questions: [[148], [153], [148], [163], [3], [155], [155], [156], [137], [128]]
+    Questions with subject 155 in first 10 output: 2
+
+  Student 1 (user_id: 5318):
+    Input (trainable) questions: 375
+    Output (meta) questions: 40
+    Total questions: 415
+    Input q_ids (first 20): [0, 2, 6, 8, 11, 16, 18, 19, 22, 24, 25, 27, 29, 30, 31, 34, 37, 38, 40, 44]
+    Output q_ids (first 20): [3, 45, 79, 80, 111, 134, 143, 183, 199, 209, 238, 242, 276, 278, 281, 311, 314, 461, 500, 527]
+    Subjects in first 10 output questions: [[148], [189], [163], [163], [148], [163, 164], [154], [156], [33], [36]]
+    Questions with subject 155 in first 10 output: 0
+
+  Student 2 (user_id: 3770):
+    Input (trainable) questions: 494
+    Output (meta) questions: 40
+    Total questions: 534
+    Input q_ids (first 20): [0, 2, 4, 6, 8, 10, 11, 12, 13, 14, 16, 18, 19, 20, 22, 24, 25, 27, 29, 30]
+    Output q_ids (first 20): [3, 45, 80, 111, 178, 183, 199, 209, 234, 276, 278, 281, 314, 337, 360, 361, 402, 461, 500, 517]
+    Subjects in first 10 output questions: [[148], [148], [148], [164], [156], [154], [39], [195], [39], [195]]
+    Questions with subject 155 in first 10 output: 0
+
+--- Batch 4 ---
+Batch size: 32 students
+
+  Student 0 (user_id: 2524):
+    Input (trainable) questions: 254
+    Output (meta) questions: 40
+    Total questions: 294
+    Input q_ids (first 20): [0, 2, 6, 8, 11, 16, 18, 19, 22, 24, 27, 29, 31, 34, 37, 40, 46, 47, 50, 51]
+    Output q_ids (first 20): [3, 45, 79, 80, 111, 134, 178, 183, 209, 234, 238, 276, 278, 281, 311, 337, 360, 372, 402, 460]
+    Subjects in first 10 output questions: [[153], [165], [154], [155], [155], [155], [155], [156], [195], [3]]
+    Questions with subject 155 in first 10 output: 4
+
+  Student 1 (user_id: 5226):
+    Input (trainable) questions: 581
+    Output (meta) questions: 40
+    Total questions: 621
+    Input q_ids (first 20): [0, 2, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 22, 24, 25]
+    Output q_ids (first 20): [3, 45, 80, 111, 134, 199, 209, 234, 238, 242, 278, 281, 311, 314, 337, 361, 372, 402, 461, 517]
+    Subjects in first 10 output questions: [[153], [153], [148], [165], [163], [154], [155], [156], [156], [156]]
+    Questions with subject 155 in first 10 output: 1
+
+  Student 2 (user_id: 6006):
+    Input (trainable) questions: 504
+    Output (meta) questions: 40
+    Total questions: 544
+    Input q_ids (first 20): [0, 2, 4, 6, 8, 11, 12, 14, 16, 17, 18, 19, 20, 22, 24, 25, 26, 27, 29, 30]
+    Output q_ids (first 20): [3, 45, 79, 80, 143, 178, 199, 209, 234, 238, 242, 281, 314, 337, 360, 361, 372, 402, 461, 463]
+    Subjects in first 10 output questions: [[153], [153], [3], [3], [163, 164], [156], [154], [155], [36], [36]]
+    Questions with subject 155 in first 10 output: 1
+
+--- Batch 5 ---
+Batch size: 32 students
+
+  Student 0 (user_id: 1144):
+    Input (trainable) questions: 614
+    Output (meta) questions: 40
+    Total questions: 654
+    Input q_ids (first 20): [0, 2, 3, 6, 8, 10, 11, 14, 16, 17, 18, 19, 22, 24, 27, 29, 30, 31, 34, 35]
+    Output q_ids (first 20): [79, 111, 143, 199, 209, 234, 238, 242, 278, 281, 311, 314, 360, 361, 372, 377, 402, 461, 463, 500]
+    Subjects in first 10 output questions: [[156], [117], [3], [163], [153], [3], [148], [164], [127], [126]]
+    Questions with subject 155 in first 10 output: 0
+
+  Student 1 (user_id: 2131):
+    Input (trainable) questions: 644
+    Output (meta) questions: 40
+    Total questions: 684
+    Input q_ids (first 20): [0, 2, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 22, 24, 25]
+    Output q_ids (first 20): [3, 45, 80, 134, 143, 183, 209, 238, 278, 281, 311, 314, 337, 360, 361, 372, 402, 460, 463, 500]
+    Subjects in first 10 output questions: [[153], [163], [148], [163], [164], [3], [156], [156], [39], [195]]
+    Questions with subject 155 in first 10 output: 0
+
+  Student 2 (user_id: 451):
+    Input (trainable) questions: 466
+    Output (meta) questions: 40
+    Total questions: 506
+    Input q_ids (first 20): [0, 2, 4, 6, 8, 11, 12, 14, 16, 18, 19, 20, 22, 24, 25, 27, 29, 30, 31, 34]
+    Output q_ids (first 20): [3, 45, 111, 134, 143, 183, 209, 234, 238, 242, 278, 281, 311, 337, 360, 361, 372, 402, 460, 463]
+    Subjects in first 10 output questions: [[148], [165], [189], [164], [165], [33], [155], [3], [155], [156]]
+    Questions with subject 155 in first 10 output: 2
+
+--- Batch 6 ---
+Batch size: 32 students
+
+  Student 0 (user_id: 4766):
+    Input (trainable) questions: 705
+    Output (meta) questions: 40
+    Total questions: 745
+    Input q_ids (first 20): [0, 2, 6, 8, 10, 11, 14, 16, 17, 18, 19, 21, 22, 23, 24, 27, 29, 30, 31, 32]
+    Output q_ids (first 20): [3, 45, 80, 111, 134, 143, 178, 183, 199, 209, 234, 238, 276, 281, 311, 337, 360, 372, 377, 402]
+    Subjects in first 10 output questions: [[126], [44], [125], [125], [63], [270], [269], [267], [163], [189]]
+    Questions with subject 155 in first 10 output: 0
+
+  Student 1 (user_id: 3395):
+    Input (trainable) questions: 502
+    Output (meta) questions: 40
+    Total questions: 542
+    Input q_ids (first 20): [0, 2, 3, 4, 5, 7, 8, 9, 11, 14, 16, 17, 18, 19, 22, 23, 24, 27, 28, 30]
+    Output q_ids (first 20): [111, 134, 143, 178, 183, 199, 238, 242, 281, 311, 337, 360, 361, 372, 402, 460, 463, 500, 517, 527]
+    Subjects in first 10 output questions: [[154], [156], [3], [195], [21], [155], [156], [156], [189], [127]]
+    Questions with subject 155 in first 10 output: 1
+
+  Student 2 (user_id: 4559):
+    Input (trainable) questions: 501
+    Output (meta) questions: 40
+    Total questions: 541
+    Input q_ids (first 20): [0, 2, 3, 4, 6, 8, 10, 11, 12, 13, 14, 16, 18, 19, 20, 22, 24, 25, 27, 29]
+    Output q_ids (first 20): [79, 80, 143, 183, 209, 238, 242, 278, 281, 311, 337, 360, 361, 372, 402, 461, 463, 500, 517, 527]
+    Subjects in first 10 output questions: [[163], [163], [155], [36], [155], [33], [114], [21], [39], [33]]
+    Questions with subject 155 in first 10 output: 2
+
+--- Batch 7 ---
+Batch size: 32 students
+
+  Student 0 (user_id: 2055):
+    Input (trainable) questions: 429
+    Output (meta) questions: 40
+    Total questions: 469
+    Input q_ids (first 20): [0, 2, 3, 4, 6, 8, 11, 12, 16, 18, 19, 20, 22, 24, 25, 26, 27, 29, 30, 31]
+    Output q_ids (first 20): [45, 80, 111, 134, 143, 199, 209, 234, 238, 242, 276, 278, 281, 311, 360, 372, 402, 460, 461, 500]
+    Subjects in first 10 output questions: [[165], [148], [148], [155], [155], [154], [156], [155], [156], [156]]
+    Questions with subject 155 in first 10 output: 3
+
+  Student 1 (user_id: 4480):
+    Input (trainable) questions: 637
+    Output (meta) questions: 40
+    Total questions: 677
+    Input q_ids (first 20): [0, 2, 3, 6, 8, 10, 11, 14, 16, 17, 18, 19, 21, 22, 23, 24, 27, 29, 30, 31]
+    Output q_ids (first 20): [45, 79, 80, 111, 134, 143, 183, 199, 209, 234, 238, 242, 276, 278, 281, 311, 314, 360, 361, 372]
+    Subjects in first 10 output questions: [[163], [165], [165], [21], [3], [164], [155], [117], [117], [128]]
+    Questions with subject 155 in first 10 output: 1
+
+  Student 2 (user_id: 1416):
+    Input (trainable) questions: 672
+    Output (meta) questions: 40
+    Total questions: 712
+    Input q_ids (first 20): [0, 2, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 22, 23, 24]
+    Output q_ids (first 20): [3, 45, 79, 80, 143, 183, 209, 234, 238, 242, 276, 281, 337, 360, 361, 460, 461, 463, 500, 517]
+    Subjects in first 10 output questions: [[153], [148], [163], [163], [36], [156], [156], [36], [156], [156]]
+    Questions with subject 155 in first 10 output: 0
+
+--- Batch 8 ---
+Batch size: 32 students
+
+  Student 0 (user_id: 5231):
+    Input (trainable) questions: 510
+    Output (meta) questions: 40
+    Total questions: 550
+    Input q_ids (first 20): [0, 2, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 22, 24, 25]
+    Output q_ids (first 20): [3, 45, 80, 111, 209, 234, 238, 242, 276, 278, 281, 311, 314, 337, 360, 361, 372, 402, 461, 463]
+    Subjects in first 10 output questions: [[148], [153], [148], [163], [155], [39], [33], [114], [195], [195]]
+    Questions with subject 155 in first 10 output: 1
+
+  Student 1 (user_id: 363):
+    Input (trainable) questions: 330
+    Output (meta) questions: 40
+    Total questions: 370
+    Input q_ids (first 20): [0, 2, 6, 8, 11, 16, 18, 19, 22, 24, 25, 27, 29, 30, 31, 34, 37, 38, 39, 40]
+    Output q_ids (first 20): [3, 45, 79, 80, 111, 143, 178, 209, 238, 242, 276, 281, 311, 314, 360, 372, 402, 461, 463, 500]
+    Subjects in first 10 output questions: [[148], [148], [148], [148], [164], [155], [156], [195], [155], [155]]
+    Questions with subject 155 in first 10 output: 3
+
+  Student 2 (user_id: 2023):
+    Input (trainable) questions: 462
+    Output (meta) questions: 40
+    Total questions: 502
+    Input q_ids (first 20): [2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 24, 27, 29]
+    Output q_ids (first 20): [45, 79, 143, 178, 183, 199, 209, 238, 242, 276, 278, 281, 311, 337, 360, 361, 463, 500, 529, 547]
+    Subjects in first 10 output questions: [[148], [155], [36], [33], [114], [155], [39], [39], [195], [21]]
+    Questions with subject 155 in first 10 output: 2
+
+--- Batch 9 ---
+Batch size: 32 students
+
+  Student 0 (user_id: 4616):
+    Input (trainable) questions: 499
+    Output (meta) questions: 40
+    Total questions: 539
+    Input q_ids (first 20): [0, 2, 3, 6, 8, 10, 11, 14, 16, 18, 19, 22, 23, 24, 25, 27, 29, 30, 31, 34]
+    Output q_ids (first 20): [45, 80, 111, 178, 183, 199, 209, 234, 278, 281, 311, 314, 361, 372, 460, 463, 500, 517, 527, 529]
+    Subjects in first 10 output questions: [[148], [3], [3], [155], [155], [155], [156], [195], [39], [39]]
+    Questions with subject 155 in first 10 output: 3
+
+  Student 1 (user_id: 4404):
+    Input (trainable) questions: 496
+    Output (meta) questions: 40
+    Total questions: 536
+    Input q_ids (first 20): [0, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 14, 16, 18, 19, 20, 22, 24, 25, 26]
+    Output q_ids (first 20): [45, 80, 111, 143, 183, 199, 209, 234, 238, 276, 278, 281, 311, 337, 360, 361, 372, 402, 460, 461]
+    Subjects in first 10 output questions: [[153], [3], [163], [164], [155], [39], [21], [36], [36], [195]]
+    Questions with subject 155 in first 10 output: 1
+
+  Student 2 (user_id: 1504):
+    Input (trainable) questions: 618
+    Output (meta) questions: 40
+    Total questions: 658
+    Input q_ids (first 20): [0, 2, 4, 6, 8, 10, 11, 13, 16, 17, 18, 19, 22, 23, 24, 25, 26, 27, 29, 30]
+    Output q_ids (first 20): [3, 45, 79, 111, 134, 143, 178, 209, 234, 238, 242, 276, 281, 311, 314, 360, 372, 402, 460, 500]
+    Subjects in first 10 output questions: [[153], [153], [148], [3], [155], [189], [164], [36], [154], [155]]
+    Questions with subject 155 in first 10 output: 2
+
+================================================================================
+SUMMARY FOR FILTERED (meta_filtered=True)
+================================================================================
+
+Total unique questions seen across 10 batches:
+  Input (trainable) questions: 899
+  Output (meta) questions: 59
+  All questions (union): 899
+  Out of 948 total questions: 94.8%
+
+Average per student:
+  Total questions: 535.4 ± 129.8
+  Input questions: 495.4 ± 129.8
+  Output questions: 40.0 ± 0.0
+
+Most common questions (seen in most students):
+  Q2: seen 30 times
+  Q3: seen 30 times
+  Q11: seen 30 times
+  Q18: seen 30 times
+  Q24: seen 30 times
+  Q27: seen 30 times
+  Q31: seen 30 times
+  Q34: seen 30 times
+  Q37: seen 30 times
+  Q46: seen 30 times
+
+Questions never seen (in these 10 batches):
+  Count: 49
+  IDs (first 20): [1, 15, 33, 58, 96, 108, 117, 139, 153, 208, 287, 294, 315, 318, 340, 345, 357, 374, 427, 428]
+
+
+
+
+================================================================================
+ANALYZING BATCHES: UNFILTERED (meta_filtered=False)
+================================================================================
+
+--- Batch 0 ---
+Batch size: 32 students
+
+  Student 0 (user_id: 2532):
+    Input (trainable) questions: 495
+    Output (meta) questions: 40
+    Total questions: 535
+    Input q_ids (first 20): [0, 3, 4, 6, 8, 10, 11, 12, 16, 18, 19, 20, 22, 24, 25, 26, 27, 29, 30, 31]
+    Output q_ids (first 20): [2, 14, 37, 40, 45, 50, 83, 194, 207, 217, 242, 243, 265, 276, 292, 360, 367, 371, 413, 421]
+    Subjects in first 10 output questions: [[153], [148], [163], [189], [163], [146], [148], [156], [156], [195]]
+    Questions with subject 155 in first 10 output: 0
+
+  Student 1 (user_id: 4522):
+    Input (trainable) questions: 186
+    Output (meta) questions: 40
+    Total questions: 226
+    Input q_ids (first 20): [2, 3, 6, 12, 18, 20, 24, 27, 29, 31, 34, 37, 39, 45, 46, 47, 49, 50, 52, 56]
+    Output q_ids (first 20): [11, 30, 51, 80, 82, 83, 89, 138, 143, 183, 185, 193, 250, 297, 314, 349, 360, 394, 402, 436]
+    Subjects in first 10 output questions: [[155], [156], [155], [3, 156], [156], [156], [156], [195], [146], [126]]
+    Questions with subject 155 in first 10 output: 2
+
+  Student 2 (user_id: 3524):
+    Input (trainable) questions: 513
+    Output (meta) questions: 40
+    Total questions: 553
+    Input q_ids (first 20): [0, 2, 3, 6, 8, 10, 11, 14, 16, 18, 19, 22, 23, 25, 26, 27, 29, 30, 31, 34]
+    Output q_ids (first 20): [24, 55, 82, 88, 133, 156, 160, 199, 207, 209, 221, 231, 283, 285, 314, 359, 369, 406, 413, 436]
+    Subjects in first 10 output questions: [[148], [148], [148], [164], [163], [155], [154], [155], [156], [155]]
+    Questions with subject 155 in first 10 output: 3
+
+--- Batch 1 ---
+Batch size: 32 students
+
+  Student 0 (user_id: 735):
+    Input (trainable) questions: 454
+    Output (meta) questions: 40
+    Total questions: 494
+    Input q_ids (first 20): [0, 3, 6, 8, 16, 18, 19, 22, 24, 26, 27, 29, 31, 32, 35, 38, 40, 42, 43, 45]
+    Output q_ids (first 20): [2, 11, 30, 34, 37, 54, 98, 103, 124, 148, 205, 311, 332, 338, 346, 367, 391, 402, 433, 442]
+    Subjects in first 10 output questions: [[153], [146], [165], [163], [164], [148], [155], [3], [3], [156]]
+    Questions with subject 155 in first 10 output: 1
+
+  Student 1 (user_id: 3314):
+    Input (trainable) questions: 513
+    Output (meta) questions: 40
+    Total questions: 553
+    Input q_ids (first 20): [0, 2, 3, 6, 8, 10, 11, 14, 16, 18, 19, 22, 23, 24, 25, 26, 27, 29, 30, 31]
+    Output q_ids (first 20): [40, 64, 72, 116, 123, 155, 161, 182, 236, 250, 255, 306, 323, 338, 344, 379, 383, 391, 435, 436]
+    Subjects in first 10 output questions: [[146], [148], [163], [165], [3], [155], [155], [154], [156], [195]]
+    Questions with subject 155 in first 10 output: 2
+
+  Student 2 (user_id: 2004):
+    Input (trainable) questions: 394
+    Output (meta) questions: 40
+    Total questions: 434
+    Input q_ids (first 20): [0, 2, 3, 6, 8, 11, 16, 18, 19, 24, 26, 27, 29, 30, 31, 34, 37, 38, 40, 45]
+    Output q_ids (first 20): [22, 25, 39, 46, 91, 134, 154, 157, 159, 170, 178, 182, 214, 241, 250, 259, 281, 284, 360, 371]
+    Subjects in first 10 output questions: [[36], [195], [156], [156], [164], [155], [36], [195], [195], [155]]
+    Questions with subject 155 in first 10 output: 2
+
+--- Batch 2 ---
+Batch size: 32 students
+
+  Student 0 (user_id: 2310):
+    Input (trainable) questions: 264
+    Output (meta) questions: 40
+    Total questions: 304
+    Input q_ids (first 20): [2, 4, 6, 11, 12, 18, 20, 24, 27, 29, 30, 31, 34, 37, 39, 44, 45, 47, 49, 51]
+    Output q_ids (first 20): [3, 46, 50, 79, 80, 84, 95, 111, 143, 145, 155, 201, 243, 259, 263, 264, 274, 298, 314, 319]
+    Subjects in first 10 output questions: [[154], [155], [155], [156], [156], [155], [156], [175], [21], [155]]
+    Questions with subject 155 in first 10 output: 4
+
+  Student 1 (user_id: 5714):
+    Input (trainable) questions: 385
+    Output (meta) questions: 40
+    Total questions: 425
+    Input q_ids (first 20): [2, 3, 6, 8, 11, 14, 16, 18, 19, 27, 29, 30, 34, 37, 38, 39, 40, 44, 45, 46]
+    Output q_ids (first 20): [4, 24, 31, 52, 53, 83, 137, 143, 161, 178, 206, 207, 219, 234, 263, 285, 293, 343, 363, 380]
+    Subjects in first 10 output questions: [[3], [3, 156], [39], [163], [164], [148], [155], [155], [39], [21]]
+    Questions with subject 155 in first 10 output: 2
+
+  Student 2 (user_id: 4977):
+    Input (trainable) questions: 698
+    Output (meta) questions: 40
+    Total questions: 738
+    Input q_ids (first 20): [0, 2, 6, 8, 10, 11, 14, 16, 17, 18, 19, 21, 22, 23, 24, 27, 29, 30, 31, 34]
+    Output q_ids (first 20): [3, 63, 65, 81, 82, 107, 126, 142, 210, 224, 283, 334, 354, 383, 412, 420, 450, 475, 496, 509]
+    Subjects in first 10 output questions: [[163], [3], [3], [164], [148], [148], [155], [155], [155], [156]]
+    Questions with subject 155 in first 10 output: 3
+
+--- Batch 3 ---
+Batch size: 32 students
+
+  Student 0 (user_id: 40):
+    Input (trainable) questions: 668
+    Output (meta) questions: 40
+    Total questions: 708
+    Input q_ids (first 20): [0, 2, 3, 4, 6, 8, 11, 12, 13, 17, 18, 19, 20, 22, 23, 24, 26, 27, 29, 30]
+    Output q_ids (first 20): [10, 14, 16, 25, 38, 54, 80, 105, 120, 132, 211, 212, 245, 255, 264, 289, 292, 308, 338, 360]
+    Subjects in first 10 output questions: [[148], [163, 164], [164], [153], [153], [164], [163], [148], [163], [155]]
+    Questions with subject 155 in first 10 output: 1
+
+  Student 1 (user_id: 5318):
+    Input (trainable) questions: 375
+    Output (meta) questions: 40
+    Total questions: 415
+    Input q_ids (first 20): [0, 2, 6, 8, 11, 16, 18, 19, 22, 25, 27, 29, 30, 31, 34, 37, 38, 44, 45, 46]
+    Output q_ids (first 20): [3, 24, 40, 50, 93, 185, 187, 196, 199, 202, 213, 217, 285, 311, 312, 328, 392, 423, 453, 461]
+    Subjects in first 10 output questions: [[148], [146], [163], [148], [3], [156], [156], [39], [33], [114]]
+    Questions with subject 155 in first 10 output: 0
+
+  Student 2 (user_id: 3770):
+    Input (trainable) questions: 494
+    Output (meta) questions: 40
+    Total questions: 534
+    Input q_ids (first 20): [0, 2, 3, 4, 8, 10, 11, 12, 13, 14, 16, 18, 19, 20, 22, 24, 25, 27, 29, 30]
+    Output q_ids (first 20): [6, 47, 56, 78, 79, 82, 160, 210, 216, 236, 246, 276, 279, 310, 311, 351, 370, 405, 431, 439]
+    Subjects in first 10 output questions: [[148], [148], [163, 164], [163], [148], [148], [156], [195], [155], [33]]
+    Questions with subject 155 in first 10 output: 1
+
+--- Batch 4 ---
+Batch size: 32 students
+
+  Student 0 (user_id: 2524):
+    Input (trainable) questions: 254
+    Output (meta) questions: 40
+    Total questions: 294
+    Input q_ids (first 20): [0, 2, 8, 11, 16, 18, 19, 22, 24, 27, 29, 34, 37, 40, 45, 47, 50, 52, 59, 65]
+    Output q_ids (first 20): [3, 6, 31, 46, 51, 54, 133, 150, 160, 161, 178, 190, 193, 238, 276, 283, 326, 337, 404, 448]
+    Subjects in first 10 output questions: [[153], [153], [163], [189], [148], [163], [154], [156], [156], [156]]
+    Questions with subject 155 in first 10 output: 0
+
+  Student 1 (user_id: 5226):
+    Input (trainable) questions: 581
+    Output (meta) questions: 40
+    Total questions: 621
+    Input q_ids (first 20): [0, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 18, 19, 20, 22, 24, 25, 27]
+    Output q_ids (first 20): [16, 17, 26, 47, 71, 80, 89, 125, 161, 242, 256, 278, 282, 310, 379, 389, 398, 405, 423, 440]
+    Subjects in first 10 output questions: [[148], [148], [148], [146], [148], [148], [164], [3], [155], [156]]
+    Questions with subject 155 in first 10 output: 1
+
+  Student 2 (user_id: 6006):
+    Input (trainable) questions: 504
+    Output (meta) questions: 40
+    Total questions: 544
+    Input q_ids (first 20): [0, 2, 3, 6, 8, 11, 12, 14, 16, 17, 18, 19, 20, 22, 24, 26, 27, 29, 30, 31]
+    Output q_ids (first 20): [4, 25, 44, 48, 70, 71, 103, 159, 191, 199, 249, 263, 295, 304, 338, 341, 342, 457, 462, 480]
+    Subjects in first 10 output questions: [[153], [148], [153], [146], [164], [164], [155], [3], [21], [154]]
+    Questions with subject 155 in first 10 output: 1
+
+--- Batch 5 ---
+Batch size: 32 students
+
+  Student 0 (user_id: 1144):
+    Input (trainable) questions: 614
+    Output (meta) questions: 40
+    Total questions: 654
+    Input q_ids (first 20): [0, 2, 3, 6, 8, 10, 11, 14, 16, 17, 18, 19, 22, 24, 27, 29, 30, 31, 35, 38]
+    Output q_ids (first 20): [34, 37, 44, 52, 68, 69, 98, 102, 118, 119, 177, 192, 196, 204, 226, 245, 248, 260, 335, 368]
+    Subjects in first 10 output questions: [[164], [165], [3], [3], [155], [155], [36], [39], [156], [156]]
+    Questions with subject 155 in first 10 output: 2
+
+  Student 1 (user_id: 2131):
+    Input (trainable) questions: 644
+    Output (meta) questions: 40
+    Total questions: 684
+    Input q_ids (first 20): [0, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 22, 24]
+    Output q_ids (first 20): [31, 45, 53, 71, 78, 90, 118, 130, 147, 157, 172, 230, 243, 284, 343, 369, 448, 460, 489, 514]
+    Subjects in first 10 output questions: [[153], [163], [148], [148], [148], [3], [163], [189], [154], [155]]
+    Questions with subject 155 in first 10 output: 1
+
+  Student 2 (user_id: 451):
+    Input (trainable) questions: 466
+    Output (meta) questions: 40
+    Total questions: 506
+    Input q_ids (first 20): [0, 2, 3, 4, 6, 8, 11, 12, 14, 16, 18, 20, 22, 24, 25, 27, 29, 30, 31, 34]
+    Output q_ids (first 20): [19, 49, 56, 69, 80, 92, 105, 142, 145, 157, 161, 169, 199, 201, 206, 259, 260, 326, 370, 406]
+    Subjects in first 10 output questions: [[164], [189], [148], [163], [3], [148], [163], [164], [155], [3]]
+    Questions with subject 155 in first 10 output: 1
+
+--- Batch 6 ---
+Batch size: 32 students
+
+  Student 0 (user_id: 4766):
+    Input (trainable) questions: 705
+    Output (meta) questions: 40
+    Total questions: 745
+    Input q_ids (first 20): [2, 3, 6, 8, 10, 14, 16, 18, 19, 21, 23, 24, 27, 29, 30, 31, 32, 34, 35, 37]
+    Output q_ids (first 20): [0, 11, 17, 22, 42, 44, 85, 116, 144, 150, 185, 238, 269, 270, 277, 283, 305, 306, 371, 379]
+    Subjects in first 10 output questions: [[42], [127], [129], [56], [155], [219], [44], [44], [63], [60]]
+    Questions with subject 155 in first 10 output: 1
+
+  Student 1 (user_id: 3395):
+    Input (trainable) questions: 502
+    Output (meta) questions: 40
+    Total questions: 542
+    Input q_ids (first 20): [0, 2, 3, 4, 7, 8, 9, 11, 14, 16, 17, 18, 19, 22, 23, 24, 27, 28, 30, 31]
+    Output q_ids (first 20): [5, 37, 66, 75, 85, 133, 155, 172, 186, 197, 211, 225, 226, 262, 275, 276, 310, 328, 364, 386]
+    Subjects in first 10 output questions: [[153], [148], [3], [3], [189], [155], [156], [195], [154], [155]]
+    Questions with subject 155 in first 10 output: 2
+
+  Student 2 (user_id: 4559):
+    Input (trainable) questions: 501
+    Output (meta) questions: 40
+    Total questions: 541
+    Input q_ids (first 20): [0, 2, 3, 4, 6, 8, 10, 11, 12, 13, 16, 18, 19, 20, 22, 24, 25, 27, 30, 31]
+    Output q_ids (first 20): [14, 29, 39, 44, 71, 90, 129, 157, 210, 214, 246, 260, 291, 323, 351, 365, 462, 488, 492, 571]
+    Subjects in first 10 output questions: [[148], [163], [163], [148], [3], [163], [154], [155], [155], [155]]
+    Questions with subject 155 in first 10 output: 3
+
+--- Batch 7 ---
+Batch size: 32 students
+
+  Student 0 (user_id: 2055):
+    Input (trainable) questions: 429
+    Output (meta) questions: 40
+    Total questions: 469
+    Input q_ids (first 20): [0, 2, 3, 4, 6, 8, 11, 12, 16, 18, 19, 20, 22, 24, 26, 27, 29, 30, 31, 34]
+    Output q_ids (first 20): [25, 50, 75, 145, 193, 238, 265, 282, 283, 289, 342, 369, 370, 372, 485, 491, 500, 502, 525, 530]
+    Subjects in first 10 output questions: [[148], [148], [148], [155], [154], [156], [195], [195], [195], [195]]
+    Questions with subject 155 in first 10 output: 1
+
+  Student 1 (user_id: 4480):
+    Input (trainable) questions: 637
+    Output (meta) questions: 40
+    Total questions: 677
+    Input q_ids (first 20): [0, 2, 3, 6, 8, 10, 11, 14, 16, 17, 18, 19, 21, 22, 23, 24, 29, 30, 31, 34]
+    Output q_ids (first 20): [27, 54, 59, 63, 77, 83, 152, 170, 199, 226, 275, 277, 278, 295, 370, 403, 437, 462, 479, 489]
+    Subjects in first 10 output questions: [[127], [163], [163], [164], [164], [148], [148], [155], [117], [128]]
+    Questions with subject 155 in first 10 output: 1
+
+  Student 2 (user_id: 1416):
+    Input (trainable) questions: 672
+    Output (meta) questions: 40
+    Total questions: 712
+    Input q_ids (first 20): [0, 2, 3, 4, 5, 6, 8, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 22, 23, 24]
+    Output q_ids (first 20): [9, 34, 84, 90, 118, 134, 161, 181, 195, 198, 241, 257, 279, 314, 323, 354, 365, 394, 413, 420]
+    Subjects in first 10 output questions: [[146], [146], [164], [163], [3], [155], [154], [155], [155], [156]]
+    Questions with subject 155 in first 10 output: 3
+
+--- Batch 8 ---
+Batch size: 32 students
+
+  Student 0 (user_id: 5231):
+    Input (trainable) questions: 510
+    Output (meta) questions: 40
+    Total questions: 550
+    Input q_ids (first 20): [0, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 22, 24]
+    Output q_ids (first 20): [30, 51, 88, 177, 216, 219, 235, 252, 262, 278, 314, 383, 396, 403, 438, 463, 484, 494, 503, 506]
+    Subjects in first 10 output questions: [[148], [146], [3], [3, 156], [155], [155], [39], [156], [156], [195]]
+    Questions with subject 155 in first 10 output: 2
+
+  Student 1 (user_id: 363):
+    Input (trainable) questions: 330
+    Output (meta) questions: 40
+    Total questions: 370
+    Input q_ids (first 20): [2, 3, 6, 8, 11, 16, 18, 19, 22, 24, 25, 27, 29, 30, 31, 34, 37, 38, 39, 40]
+    Output q_ids (first 20): [0, 45, 52, 161, 185, 190, 197, 206, 238, 242, 248, 278, 297, 325, 360, 376, 417, 449, 465, 484]
+    Subjects in first 10 output questions: [[148], [148], [148], [156], [155], [155], [155], [195], [155], [155]]
+    Questions with subject 155 in first 10 output: 5
+
+  Student 2 (user_id: 2023):
+    Input (trainable) questions: 462
+    Output (meta) questions: 40
+    Total questions: 502
+    Input q_ids (first 20): [2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 24, 27, 29]
+    Output q_ids (first 20): [56, 129, 133, 135, 147, 148, 167, 195, 213, 255, 262, 265, 281, 325, 351, 358, 368, 409, 453, 457]
+    Subjects in first 10 output questions: [[165], [156], [156], [156], [195], [195], [155], [155], [39], [36]]
+    Questions with subject 155 in first 10 output: 2
+
+--- Batch 9 ---
+Batch size: 32 students
+
+  Student 0 (user_id: 4616):
+    Input (trainable) questions: 499
+    Output (meta) questions: 40
+    Total questions: 539
+    Input q_ids (first 20): [0, 2, 3, 6, 8, 10, 11, 14, 16, 18, 19, 22, 24, 25, 27, 29, 30, 31, 34, 37]
+    Output q_ids (first 20): [23, 52, 59, 63, 69, 71, 103, 176, 226, 276, 325, 369, 388, 398, 417, 445, 464, 520, 523, 526]
+    Subjects in first 10 output questions: [[146], [148], [189], [189], [148], [148], [165], [155], [155], [21]]
+    Questions with subject 155 in first 10 output: 2
+
+  Student 1 (user_id: 4404):
+    Input (trainable) questions: 496
+    Output (meta) questions: 40
+    Total questions: 536
+    Input q_ids (first 20): [0, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 14, 16, 18, 19, 20, 22, 24, 25, 26]
+    Output q_ids (first 20): [50, 76, 88, 91, 177, 187, 261, 276, 281, 282, 312, 327, 333, 361, 432, 480, 489, 498, 503, 508]
+    Subjects in first 10 output questions: [[146], [148], [3], [155], [156], [154], [156], [195], [148], [195]]
+    Questions with subject 155 in first 10 output: 1
+
+  Student 2 (user_id: 1504):
+    Input (trainable) questions: 618
+    Output (meta) questions: 40
+    Total questions: 658
+    Input q_ids (first 20): [0, 2, 3, 4, 8, 10, 11, 13, 16, 17, 18, 19, 22, 23, 24, 25, 26, 27, 29, 30]
+    Output q_ids (first 20): [6, 79, 92, 154, 162, 185, 209, 221, 245, 250, 274, 276, 285, 292, 297, 314, 338, 353, 355, 361]
+    Subjects in first 10 output questions: [[153], [148], [148], [155], [156], [3], [36], [195], [155], [155]]
+    Questions with subject 155 in first 10 output: 3
+
+================================================================================
+SUMMARY FOR UNFILTERED (meta_filtered=False)
+================================================================================
+
+Total unique questions seen across 10 batches:
+  Input (trainable) questions: 897
+  Output (meta) questions: 574
+  All questions (union): 899
+  Out of 948 total questions: 94.8%
+
+Average per student:
+  Total questions: 535.4 ± 129.8
+  Input questions: 495.4 ± 129.8
+  Output questions: 40.0 ± 0.0
+
+Most common questions (seen in most students):
+  Q3: seen 30 times
+  Q11: seen 30 times
+  Q18: seen 30 times
+  Q24: seen 30 times
+  Q27: seen 30 times
+  Q31: seen 30 times
+  Q34: seen 30 times
+  Q46: seen 30 times
+  Q52: seen 30 times
+  Q71: seen 30 times
+
+Questions never seen (in these 10 batches):
+  Count: 49
+  IDs (first 20): [1, 15, 33, 58, 96, 108, 117, 139, 153, 208, 287, 294, 315, 318, 340, 345, 357, 374, 427, 428]
+
+================================================================================
+COMPARING QUESTION COVERAGE
+================================================================================
+
+Questions seen in filtered dataset: 899
+Questions seen in unfiltered dataset: 899
+Questions only in unfiltered: 0
+Questions only in filtered: 0
+
+
+
+
+================================================================================
+SIMULATING ACTIVE SAMPLING: FILTERED
+================================================================================
+
+Analyzing first 5 students:
+
+--- Student 0 (user_id: 2532) ---
+Available questions for active sampling: 495
+  Question IDs (first 20): [0, 2, 3, 4, 6, 8, 10, 11, 12, 14, 16, 18, 19, 20, 22, 24, 25, 26, 27, 29]
+  Question IDs (last 20): [908, 911, 912, 913, 914, 920, 921, 922, 923, 924, 927, 931, 932, 933, 934, 935, 939, 941, 943, 945]
+  Min question ID: 0
+  Max question ID: 945
+  Range coverage: Q0 to Q945
+  Average gap between questions: 1.9
+  Max gap: 9
+
+--- Student 1 (user_id: 4522) ---
+Available questions for active sampling: 186
+  Question IDs (first 20): [2, 3, 6, 11, 12, 18, 20, 24, 27, 29, 30, 31, 34, 37, 39, 46, 47, 49, 50, 51]
+  Question IDs (last 20): [852, 855, 856, 858, 862, 868, 873, 882, 904, 907, 908, 911, 913, 914, 922, 923, 927, 934, 941, 945]
+  Min question ID: 2
+  Max question ID: 945
+  Range coverage: Q2 to Q945
+  Average gap between questions: 5.1
+  Max gap: 33
+
+--- Student 2 (user_id: 3524) ---
+Available questions for active sampling: 513
+  Question IDs (first 20): [0, 2, 3, 6, 8, 10, 11, 14, 16, 18, 19, 22, 23, 24, 25, 26, 27, 29, 30, 31]
+  Question IDs (last 20): [903, 904, 906, 908, 910, 911, 912, 914, 920, 921, 922, 923, 924, 932, 933, 934, 939, 941, 943, 945]
+  Min question ID: 0
+  Max question ID: 945
+  Range coverage: Q0 to Q945
+  Average gap between questions: 1.8
+  Max gap: 9
+
+--- Student 3 (user_id: 370) ---
+Available questions for active sampling: 513
+  Question IDs (first 20): [0, 2, 3, 6, 8, 10, 11, 14, 16, 18, 19, 22, 23, 24, 25, 26, 27, 29, 30, 31]
+  Question IDs (last 20): [903, 904, 906, 908, 910, 911, 912, 914, 920, 921, 922, 923, 924, 932, 933, 934, 939, 941, 943, 945]
+  Min question ID: 0
+  Max question ID: 945
+  Range coverage: Q0 to Q945
+  Average gap between questions: 1.8
+  Max gap: 9
+
+--- Student 4 (user_id: 577) ---
+Available questions for active sampling: 542
+  Question IDs (first 20): [0, 2, 3, 4, 6, 8, 10, 11, 12, 14, 16, 18, 19, 20, 22, 24, 25, 26, 27, 29]
+  Question IDs (last 20): [911, 912, 913, 914, 916, 920, 921, 922, 923, 924, 927, 931, 932, 933, 934, 935, 939, 941, 943, 945]
+  Min question ID: 0
+  Max question ID: 945
+  Range coverage: Q0 to Q945
+  Average gap between questions: 1.7
+  Max gap: 9
+
+
+
+
+================================================================================
+SIMULATING ACTIVE SAMPLING: UNFILTERED
+================================================================================
+
+Analyzing first 5 students:
+
+--- Student 0 (user_id: 2532) ---
+Available questions for active sampling: 495
+  Question IDs (first 20): [0, 2, 3, 4, 6, 8, 10, 11, 12, 14, 16, 18, 19, 20, 22, 24, 25, 26, 27, 29]
+  Question IDs (last 20): [912, 913, 914, 920, 921, 922, 923, 924, 926, 927, 931, 932, 933, 934, 935, 938, 939, 941, 943, 945]
+  Min question ID: 0
+  Max question ID: 945
+  Range coverage: Q0 to Q945
+  Average gap between questions: 1.9
+  Max gap: 9
+
+--- Student 1 (user_id: 4522) ---
+Available questions for active sampling: 186
+  Question IDs (first 20): [3, 11, 18, 20, 24, 27, 29, 30, 31, 34, 39, 45, 46, 47, 49, 50, 52, 56, 71, 76]
+  Question IDs (last 20): [833, 834, 836, 844, 849, 850, 852, 855, 867, 868, 882, 907, 908, 911, 914, 926, 927, 938, 941, 945]
+  Min question ID: 3
+  Max question ID: 945
+  Range coverage: Q3 to Q945
+  Average gap between questions: 5.1
+  Max gap: 27
+
+--- Student 2 (user_id: 3524) ---
+Available questions for active sampling: 513
+  Question IDs (first 20): [0, 2, 3, 6, 8, 11, 14, 16, 18, 22, 23, 24, 25, 27, 29, 30, 31, 34, 38, 39]
+  Question IDs (last 20): [904, 906, 908, 910, 911, 912, 914, 920, 921, 923, 924, 926, 932, 933, 934, 938, 939, 941, 943, 945]
+  Min question ID: 0
+  Max question ID: 945
+  Range coverage: Q0 to Q945
+  Average gap between questions: 1.8
+  Max gap: 9
+
+--- Student 3 (user_id: 370) ---
+Available questions for active sampling: 513
+  Question IDs (first 20): [0, 2, 3, 6, 8, 10, 14, 16, 18, 19, 23, 24, 25, 26, 27, 29, 30, 31, 34, 37]
+  Question IDs (last 20): [906, 908, 910, 911, 912, 914, 920, 921, 922, 923, 924, 926, 932, 933, 934, 938, 939, 941, 943, 945]
+  Min question ID: 0
+  Max question ID: 945
+  Range coverage: Q0 to Q945
+  Average gap between questions: 1.8
+  Max gap: 9
+
+--- Student 4 (user_id: 577) ---
+Available questions for active sampling: 542
+  Question IDs (first 20): [0, 2, 4, 6, 8, 10, 11, 12, 14, 16, 18, 19, 20, 22, 24, 25, 27, 29, 30, 31]
+  Question IDs (last 20): [912, 913, 914, 916, 920, 921, 922, 923, 924, 926, 927, 931, 932, 933, 934, 935, 938, 941, 943, 945]
+  Min question ID: 0
+  Max question ID: 945
+  Range coverage: Q0 to Q945
+  Average gap between questions: 1.7
+  Max gap: 9
+
+================================================================================
+INVESTIGATION COMPLETE
+================================================================================

@@ -97,7 +97,7 @@ class MAMLModel(nn.Module):
     def forward(self, batch, config):
         #get inputs
         input_labels = batch['input_labels'].to(device).float()
-        student_embed = config['meta_param']#
+        student_embed = config['meta_param'] #
         output = self.compute_output(student_embed)
         train_mask = config['train_mask']
         #compute loss
@@ -110,8 +110,8 @@ class MAMLModel(nn.Module):
                 input_loss = compute_loss(output, input_labels, train_mask, reduction=False)
             else:
                 input_loss = normalize_loss(output, input_labels, train_mask)
-            #loss = input_loss*self.alpha + output_loss
-            return {'loss': output_loss, 'train_loss': input_loss, 'output': self.sigmoid(output).detach().cpu().numpy()}
+            #loss = input_loss*self.alpha + output_loss - FROM THEM? ARE THEY CONSIDERING?
+            return {'loss': output_loss, 'train_loss': input_loss, 'output': self.sigmoid(output).detach().cpu().numpy()} # TRAIN LOSS
         else:
             input_loss = compute_loss(output, input_labels, train_mask,reduction=False)
             return {'output': self.sigmoid(output).detach().cpu().numpy(), 'train_loss': input_loss}

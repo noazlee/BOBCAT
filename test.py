@@ -11,7 +11,7 @@ from utils.utils import open_json, dump_json, compute_auc, compute_accuracy, dat
 
 def load_model():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    checkpoint = torch.load("saved_models_exp1/bobcat_final_163_164_165_True_eedi-3_biirt-active_10_20251112_135028.pt", map_location=device)
+    checkpoint = torch.load("saved_models_exp1/bobcat_final_155_False_eedi-3_biirt-active_10_20251115_182957.pt", map_location=device)
     print(checkpoint.keys())
     print(checkpoint["model_state_dict"].keys())
     print(checkpoint["params"].keys())
@@ -49,6 +49,14 @@ def run_random_test(batch, model, n_query=10, question_dim=1):
     student_params = torch.zeros(batch_size, question_dim).to(device)
     student_params.requires_grad = True
     
+    # DEBUG: Print available questions for first few students
+    print("\n=== DEBUG: Available questions ===")
+    for i in range(min(3, batch_size)):
+        available = torch.where(batch['input_mask'][i] == 1)[0].cpu().numpy()
+        print(f"Student {i}: {len(available)} available questions")
+        print(f"  First 20: {available[:20]}")
+    
+
     config = {
         'available_mask': batch['input_mask'].to(device).clone(),   # what can be sampled (512, 948)
         'train_mask': torch.zeros(batch_size, model.n_question).long().to(device),  # what has been sampled (512, 948)
@@ -57,7 +65,8 @@ def run_random_test(batch, model, n_query=10, question_dim=1):
     }
     
     # Track sampled questions for each student
-    sampled_questions = []
+    # sampled_questions = []
+    sampled_questions = [[] for _ in range(batch_size)]
     
     # Active sampling loop
     for query_idx in range(n_query):
@@ -74,12 +83,19 @@ def run_random_test(batch, model, n_query=10, question_dim=1):
             scores = torch.min(1-output_probs, output_probs) + inf_mask
             actions = torch.argmax(scores, dim=-1)
         
+        # DEBUG: Print EVERY query for first batch only
+        if query_idx < 3:  # First 3 queries
+            print(f"\n=== Query {query_idx} ===")
+            for i in range(min(3, batch_size)):
+                print(f"Student {i}: selected Q{actions[i].item()}")
+
         # Update masks and track questions
         for i in range(batch_size):
             action = actions[i].item()
             config['train_mask'][i, action] = 1
             config['available_mask'][i, action] = 0
-            sampled_questions.append(action)
+            sampled_questions[i].append(action) 
+            # sampled_questions.append(action)
         
         # Inner loop update (gradient descent on student params)
         res = model(batch, config)
@@ -96,14 +112,15 @@ def run_random_test(batch, model, n_query=10, question_dim=1):
         res = model(batch, config) 
     
     # Reshape sampled questions by student
-    sampled_questions = np.array(sampled_questions).reshape(n_query, batch_size).T 
+    # sampled_questions = np.array(sampled_questions).reshape(n_query, batch_size).T 
+    sampled_questions = np.array(sampled_questions)
     
     return res['output'], sampled_questions # pred probs for each q for each student, questions chosen
 
 def test_model(model, test_data, n_query=10, question_dim=1):
     
     # Create dataset and dataloader
-    test_dataset = Dataset(test_data, [163,164,165], True) # this splits training/meta set
+    test_dataset = Dataset(test_data, 155, True) # this splits training/meta set
     test_loader = DataLoader(
         test_dataset,
         batch_size=32,
@@ -141,6 +158,15 @@ def test_model(model, test_data, n_query=10, question_dim=1):
             
             # The sampled indices ARE the question IDs (0-947)
             sampled_q_ids = sampled_q_indices[i].tolist()
+
+            if batch_idx == 0 and i == 0:
+                print(f"\n=== DEBUG: First student question mapping ===")
+                print(f"all_q_ids type: {type(all_q_ids)}")
+                print(f"all_q_ids length: {len(all_q_ids)}")
+                print(f"all_q_ids first 10: {all_q_ids[:10]}")
+                print(f"sampled action indices: {sampled_q_indices[i].tolist()}")
+                print(f"input_mask shape: {batch['input_mask'][i].shape}")
+                print(f"Questions where input_mask==1: {torch.where(batch['input_mask'][i]==1)[0][:10].tolist()}")
             
             # Get the subjects for the sampled questions
             # First create a mapping of q_id to subject_ids from the student's data
