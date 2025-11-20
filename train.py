@@ -149,8 +149,8 @@ def run_biased(batch, config):
         model.train()
         optimizer.zero_grad()
         res = model(batch, config)
-        loss = res['loss']
-        # loss = 0.9 * res['loss'] + 0.1 * res['train_loss']
+        # loss = res['loss']
+        loss = res['loss'] + 0.05 * res['train_loss']
         loss.backward()
         optimizer.step()
         meta_params_optimizer.step()
@@ -445,9 +445,9 @@ if __name__ == "__main__":
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     if params.sid_filtered:
-        model_save_path = f"saved_models_exp1/bobcat_final_{params.sid_filtered_str}_{params.meta_filtered}_{params.dataset}_{params.model}_{params.n_query}_{timestamp}.pt" 
+        model_save_path = f"saved_models_train_loss/bobcat_final_{params.sid_filtered_str}_{params.meta_filtered}_{params.dataset}_{params.model}_{params.n_query}_{timestamp}.pt" 
     else:
-        model_save_path = f"saved_models_exp1/bobcat_final_{params.dataset}_{params.model}_{params.n_query}_{timestamp}.pt" 
+        model_save_path = f"saved_models_train_loss/bobcat_final_{params.dataset}_{params.model}_{params.n_query}_{timestamp}.pt" 
 
     torch.save({ 'epoch': epoch, 
         'model_state_dict': model.state_dict(), 

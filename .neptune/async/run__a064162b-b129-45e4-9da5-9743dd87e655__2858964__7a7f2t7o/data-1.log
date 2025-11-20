@@ -1,0 +1,11 @@
+{"obj": {"type": "AssignString", "path": ["sys", "name"], "value": "155, False, binn-biased,10,eedi-3"}, "version": 1, "at": 1763517291.5651448}
+{"obj": {"type": "AssignString", "path": ["sys", "description"], "value": ""}, "version": 2, "at": 1763517291.5656173}
+{"obj": {"type": "AssignString", "path": ["monitoring", "39b86c9f", "hostname"], "value": "olin21024030"}, "version": 3, "at": 1763517291.5656636}
+{"obj": {"type": "AssignString", "path": ["sys", "hostname"], "value": "olin21024030"}, "version": 4, "at": 1763517291.565698}
+{"obj": {"type": "AssignString", "path": ["monitoring", "39b86c9f", "pid"], "value": "2858964"}, "version": 5, "at": 1763517291.5657268}
+{"obj": {"type": "AssignString", "path": ["monitoring", "39b86c9f", "tid"], "value": "132155643662336"}, "version": 6, "at": 1763517291.5657556}
+{"obj": {"type": "AssignBool", "path": ["sys", "failed"], "value": false}, "version": 7, "at": 1763517291.565784}
+{"obj": {"type": "ClearStringLog", "path": ["monitoring", "39b86c9f", "stdout"]}, "version": 8, "at": 1763517291.5658255}
+{"obj": {"type": "ClearStringLog", "path": ["monitoring", "39b86c9f", "stderr"]}, "version": 9, "at": 1763517291.5658534}
+{"obj": {"type": "AssignString", "path": ["source_code", "entrypoint"], "value": "train.py"}, "version": 10, "at": 1763517291.5659647}
+{"obj": {"type": "UploadFileSet", "path": ["source_code", "files"], "file_globs": ["/home/leen2/Documents/BOBCAT/train.py"], "reset": "False"}, "version": 11, "at": 1763517291.5659988}
