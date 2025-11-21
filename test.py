@@ -11,7 +11,7 @@ from utils.utils import open_json, dump_json, compute_auc, compute_accuracy, dat
 
 def load_model():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    checkpoint = torch.load("saved_models_exp1/bobcat_final_155_False_eedi-3_biirt-active_10_20251115_182957.pt", map_location=device)
+    checkpoint = torch.load("saved_models_exp1/bobcat_final_155_True_eedi-3_binn-biased_10_20251120_170705.pt", map_location=device)
     print(checkpoint.keys())
     print(checkpoint["model_state_dict"].keys())
     print(checkpoint["params"].keys())
@@ -120,7 +120,7 @@ def run_random_test(batch, model, n_query=10, question_dim=1):
 def test_model(model, test_data, n_query=10, question_dim=1):
     
     # Create dataset and dataloader
-    test_dataset = Dataset(test_data, 155, True) # this splits training/meta set
+    test_dataset = Dataset(test_data, [163, 164, 165], True) # this splits training/meta set
     test_loader = DataLoader(
         test_dataset,
         batch_size=32,

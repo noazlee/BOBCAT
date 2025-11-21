@@ -149,8 +149,8 @@ def run_biased(batch, config):
         model.train()
         optimizer.zero_grad()
         res = model(batch, config)
-        # loss = res['loss']
-        loss = res['loss'] + 0.05 * res['train_loss']
+        loss = res['loss']
+        # loss = res['loss'] + 0.05 * res['train_loss']
         loss.backward()
         optimizer.step()
         meta_params_optimizer.step()
@@ -452,13 +452,14 @@ if __name__ == "__main__":
     torch.save({ 'epoch': epoch, 
         'model_state_dict': model.state_dict(), 
         'meta_params': meta_params, 
+        'st_policy_state_dict': st_policy.policy.state_dict(), # only for binn biased!!!
         'optimizer_state_dict': optimizer.state_dict(), 
         'meta_optimizer_state_dict': meta_params_optimizer.state_dict(), 
         'val_score': best_val_score, 
         'val_auc': best_val_auc, 
         'test_score': best_test_score, 
         'test_auc': best_test_auc, 
-        'params': vars(params) 
+        'params': vars(params)
         # 'test_qids: [] list of students we will test on
     }, model_save_path) 
     

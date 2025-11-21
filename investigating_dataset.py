@@ -202,11 +202,26 @@ print(f"Test set size: {len(test_data)} students")
 # Run testing
 print("Running test...")
 
-test_dataset_no_filter = Dataset(test_data, 155) # split into input/output
-test_dataset_filter = Dataset(test_data, 155, True)
+test_dataset_no_filter = Dataset(train_data, 155) # split into input/output
+test_dataset_filter = Dataset(train_data, 155, True)
 
 test_dataset_no_filter[0]
 test_dataset_filter[0]
+
+users_155 = [stu["user_id"] for stu in test_dataset_no_filter.data]
+print(len(users_155))
+
+test_dataset_no_filter2 = Dataset(train_data, [163, 164, 165]) # split into input/output
+test_dataset_filter2 = Dataset(train_data, [163, 164, 165], True)
+
+users_163 = [stu["user_id"] for stu in test_dataset_no_filter2.data]
+
+test_dataset_no_filter2[0]
+test_dataset_filter2[0]
+print(len(users_163))
+
+# print(set(users_155).intersection(set(users_163)))
+print("INTERSECCTION:", len(set(users_155) & (set(users_163))))
 
 # df = pd.read_json('data/train_task_3_4.json')
 # print(df.head())

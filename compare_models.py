@@ -97,20 +97,15 @@ def load_and_inspect_model(model_path, model_name):
 if __name__ == "__main__":
     # Load both models
     filtered_model, filtered_diff, filtered_checkpoint = load_and_inspect_model(
-        "saved_models_exp1/bobcat_final_155_True_eedi-3_biirt-active_10_20251109_134224.pt",
+        "saved_models_exp1/actives/bobcat_final_155_True_eedi-3_biirt-active_10_20251109_134224.pt",
         "FILTERED (meta_filtered=True)"
     )
     
     unfiltered_model, unfiltered_diff, unfiltered_checkpoint = load_and_inspect_model(
-        "saved_models_exp1/bobcat_final_155_False_eedi-3_biirt-active_10_20251115_182957.pt",
+        "saved_models_exp1/actives/bobcat_final_155_False_eedi-3_biirt-active_10_20251115_182957.pt",
         "UNFILTERED (meta_filtered=False)"
     )
-
     
-    biased_model, biased_diff, biased_checkpoint = load_and_inspect_model(
-        "saved_models/bobcat_final_eedi-3_biirt-biased_10_20251029_213955.pt",
-        "UNFILTERED (meta_filtered=False)"
-    )
 
     # print(filtered_model["meta_params"])
     # print(unfiltered_model["meta_params"])
