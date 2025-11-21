@@ -11,7 +11,7 @@ from utils.utils import open_json, dump_json, compute_auc, compute_accuracy, dat
 
 def load_model():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    checkpoint = torch.load("saved_models_exp1/bobcat_final_155_True_eedi-3_binn-biased_10_20251120_170705.pt", map_location=device)
+    checkpoint = torch.load("saved_models_exp1/bobcat_final_eedi-3_binn-biased_10_20251120_155725.pt", map_location=device)
     print(checkpoint.keys())
     print(checkpoint["model_state_dict"].keys())
     print(checkpoint["params"].keys())

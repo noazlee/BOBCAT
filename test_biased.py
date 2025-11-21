@@ -13,7 +13,7 @@ from policy import StraightThrough
 
 def load_model():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    checkpoint = torch.load("saved_models_biased_real/bobcat_final_163_164_165_False_eedi-3_binn-biased_10_20251120_145609.pt", map_location=device)
+    checkpoint = torch.load("saved_models_biased_real/bobcat_final_eedi-3_binn-biased_10_20251120_155725.pt", map_location=device)
     print(checkpoint.keys())
     print(checkpoint["model_state_dict"].keys())
     print(checkpoint["params"].keys())
@@ -150,7 +150,7 @@ def run_biased_test(st_policy, batch, model, n_query=10, question_dim=4):
     return res['output'], sampled_questions
 
 def test_model_multiple_seeds(st_policy, model, test_data, n_query=10, question_dim=4, 
-                               subject_filter=155, num_seeds=10):
+                               subject_filter=[163,164,165], num_seeds=10):
     all_aucs = []
     all_accs = []
     all_sampled_data = []
@@ -236,7 +236,7 @@ def test_model_multiple_seeds(st_policy, model, test_data, n_query=10, question_
     
     return avg_auc, avg_acc, all_sampled_data
 
-def test_model(st_policy, model, test_data, n_query=10, question_dim=4, subject_filter=155):
+def test_model(st_policy, model, test_data, n_query=10, question_dim=4, subject_filter=[163,164,165]):
     """
     Test model with biased sampling policy.
     
@@ -377,7 +377,7 @@ if __name__ == "__main__":
         test_data, 
         n_query=model_params.get('n_query', 10),
         question_dim=4,
-        subject_filter=155,
+        subject_filter=[163,164,165],
         num_seeds=10
     )
     
